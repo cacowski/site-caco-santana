@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repertório — Caco Santana</title>
+<meta name="description" content="Repertório de tratamentos de direção — Caco Santana.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: #0E0F10;
+  --bg-2: #17181B;
+  --text: #F3F2EE;
+  --text-dim: #96968F;
+  --amber: #FFB238;
+  --magenta: #FF3B5C;
+  --line: rgba(243,242,238,0.10);
+  --max: 1100px;
+  --pad: clamp(1.25rem, 4vw, 2.5rem);
+  --display: 'Space Grotesk', 'Arial', sans-serif;
+  --body: 'Inter', 'Arial', sans-serif;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit; text-decoration:none;}
+
+.eyebrow{
+  font-family:var(--display);
+  font-size:0.78rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--amber);
+  margin:0 0 0.75rem;
+}
+
+/* NAV */
+.nav{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:1.5rem var(--pad);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.nav-name{
+  font-family:var(--display);
+  font-weight:500;
+  font-size:0.95rem;
+}
+.nav-back{
+  font-family:var(--display);
+  font-size:0.8rem;
+  color:var(--text-dim);
+  letter-spacing:0.02em;
+}
+.nav-back:hover{ color:var(--amber); }
+
+/* HEADER DA PÁGINA */
+.page-head{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:2.5rem var(--pad) 4rem;
+  border-bottom:1px solid var(--line);
+}
+.page-head .eyebrow{
+  font-size:0.94rem;
+  margin-bottom:1.5rem;
+}
+.page-sub{
+  font-size:0.95rem;
+  color:var(--text-dim);
+  max-width:62ch;
+  margin:0 0 1.2rem;
+}
+.page-sub:last-of-type{ margin-bottom:0; }
+
+/* JANELA (um trabalho do repertório) */
+.janela{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:4rem var(--pad);
+  border-bottom:1px solid var(--line);
+}
+.janela-head{ margin-bottom:1.5rem; }
+.janela-sub{
+  font-family:var(--display);
+  font-size:1.15rem;
+  color:var(--text);
+  margin:0;
+}
+
+.showcase-visual{
+  position:relative;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:var(--bg-2);
+  transition:border-color 0.25s ease;
+}
+.janela:hover .showcase-visual{ border-color:var(--amber); }
+.showcase-visual video{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+/* RODAPÉ */
+.rodape{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:4rem var(--pad) 5rem;
+  text-align:center;
+}
+.fim{
+  font-family:var(--display);
+  font-size:0.85rem;
+  color:var(--text-dim);
+  margin-top:2rem;
+}
+.aviso{
+  font-size:0.85rem;
+  color:var(--text-dim);
+  max-width:52ch;
+  margin:2.5rem auto 0;
+}
+
+/* REVEAL ON SCROLL */
+.reveal{
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.in-view{ opacity:1; transform:none; }
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity:1; transform:none; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="nav-name" href="/">Caco Santana</a>
+  <a class="nav-back" href="/">← Voltar ao site</a>
+</header>
+
+<section class="page-head">
+  <h1 class="eyebrow">Repertório</h1>
+  <p class="page-sub">Uma seleção de tratamentos em que trabalhei como pesquisador e escritor, ou só pesquisador, mas nunca como designer. Eu tenho parceiros que trabalham comigo e que posso indicar para fazer o layout da apresentação, mas a contratação desse profissional gera um valor extra, que depende do cachê cobrado por cada um deles.</p>
+  <p class="page-sub">É importante dizer que o tratamento é uma peça colaborativa: nem sempre só o trabalho do pesquisador vai ao ar, há colaboração de outros profissionais, de pós-produção, de storyboard, entre outros.</p>
+</section>
+
+<main>
+
+  <section class="janela reveal" id="hbo">
+    <div class="janela-head">
+      <p class="eyebrow">01 — HBO</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1244/750">
+      <video poster="./posters/hbo.jpg" src="./videos/hbo.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="imecap">
+    <div class="janela-head">
+      <p class="eyebrow">02 — Imecap</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1242/740">
+      <video poster="./posters/imecap.jpg" src="./videos/imecap.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="shell">
+    <div class="janela-head">
+      <p class="eyebrow">03 — Shell</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1242/746">
+      <video poster="./posters/shell.jpg" src="./videos/shell.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="99">
+    <div class="janela-head">
+      <p class="eyebrow">04 — 99</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1238/740">
+      <video poster="./posters/_99.jpg" src="./videos/_99.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="bradesco">
+    <div class="janela-head">
+      <p class="eyebrow">05 — Fundação Bradesco</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1242/746">
+      <video poster="./posters/fundacao_bradesco.jpg" src="./videos/fundacao_bradesco.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="votorantim">
+    <div class="janela-head">
+      <p class="eyebrow">06 — Votorantim</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1080/526">
+      <video poster="./posters/votorantin.jpg" src="./videos/votorantin.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="diablo">
+    <div class="janela-head">
+      <p class="eyebrow">07 — Diablo</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1242/744">
+      <video poster="./posters/diablo.jpg" src="./videos/diablo.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="nubank">
+    <div class="janela-head">
+      <p class="eyebrow">08 — Nubank</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1084/524">
+      <video poster="./posters/nu_bank.jpg" src="./videos/nu_bank.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="fiat-black">
+    <div class="janela-head">
+      <p class="eyebrow">09 — Fiat Black</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1040/656">
+      <video poster="./posters/Fiat_Black.jpg" src="./videos/Fiat_Black.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="betmgm">
+    <div class="janela-head">
+      <p class="eyebrow">10 — BetMGM</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1042/658">
+      <video poster="./posters/BET_MGM.jpg" src="./videos/BET_MGM.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="piraque">
+    <div class="janela-head">
+      <p class="eyebrow">11 — Piraquê</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1040/654">
+      <video poster="./posters/piraque.jpg" src="./videos/piraque.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="fiat-et">
+    <div class="janela-head">
+      <p class="eyebrow">12 — Fiat ET</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:1038/654">
+      <video poster="./posters/Fiat_ET.jpg" src="./videos/Fiat_ET.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+  <section class="janela reveal" id="byd">
+    <div class="janela-head">
+      <p class="eyebrow">13 — BYD</p>
+    </div>
+    <div class="showcase-visual" style="aspect-ratio:992/554">
+      <video poster="./posters/BYD.jpg" src="./videos/BYD.mp4" controls muted loop playsinline preload="none"></video>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <a class="nav-back" href="/">← Voltar ao site</a>
+  <p class="aviso">O material aqui apresentado tem a finalidade de apresentar o trabalho desse profissional, todo o conteúdo deve ser resguardado, pois envolve o trabalho de outros profissionais. Obrigado.</p>
+  <p class="fim">fim.</p>
+</footer>
+
+<script>
+  document.querySelectorAll('.reveal').forEach(el => {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('in-view');
+      });
+    }, {threshold:0.15});
+    io.observe(el);
+  });
+
+  function tryPlay(video){
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute('muted','');
+    const p = video.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => {
+        const resume = () => video.play().catch(()=>{});
+        document.addEventListener('touchstart', resume, {once:true, passive:true});
+        document.addEventListener('click', resume, {once:true});
+      });
+    }
+  }
+  document.querySelectorAll('video').forEach(v => {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.5) tryPlay(entry.target);
+        else entry.target.pause();
+      });
+    }, {threshold:[0,0.5]});
+    io.observe(v);
+  });
+</script>
+
+</body>
+</html>
