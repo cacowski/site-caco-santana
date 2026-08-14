@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Não Faças Deles Mártires — Juscelino e a noite em que perdeu o futuro</title>
+<meta name="description" content="Minissérie dramática. As 36 horas da Revolta de Aragarças, dezembro de 1959, o primeiro sequestro aéreo da história do Brasil.">
+<meta name="robots" content="noindex, nofollow">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Não Faças Deles Mártires">
+<meta property="og:description" content="Juscelino e a noite em que perdeu o futuro. Minissérie dramática, Brasil, 2026.">
+<meta property="og:image" content="/jk/img/hero.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --noite:#0B0D12;
+  --catete:#12161F;
+  --linha:rgba(231,226,214,.13);
+  --osso:#E7E2D6;
+  --osso-fraco:rgba(231,226,214,.62);
+  --osso-tenue:rgba(231,226,214,.38);
+  --latao:#C69A3E;
+  --radio:#6E93AE;
+
+  --display:'Archivo',system-ui,sans-serif;
+  --corpo:'Source Serif 4',Georgia,serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+
+  --max:1180px;
+  --texto:66ch;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--noite);
+  color:var(--osso);
+  font-family:var(--corpo);
+  font-size:clamp(1rem,.94rem + .3vw,1.12rem);
+  line-height:1.72;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+
+/* ---------- PORTÃO ---------- */
+#portao{
+  position:fixed;inset:0;z-index:999;
+  background:var(--noite);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+}
+#portao.saiu{opacity:0;pointer-events:none;transition:opacity .7s ease}
+.portao-caixa{width:100%;max-width:380px;text-align:center}
+.portao-selo{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.32em;
+  color:var(--latao);text-transform:uppercase;margin-bottom:30px;
+}
+.portao-titulo{
+  font-family:var(--display);font-weight:800;
+  font-size:clamp(1.5rem,5.4vw,2rem);line-height:1.06;
+  letter-spacing:-.02em;text-transform:uppercase;margin-bottom:12px;
+}
+.portao-sub{
+  font-size:.9rem;font-style:italic;color:var(--osso-tenue);margin-bottom:38px;
+}
+.portao-campo{display:flex;gap:8px}
+#senha{
+  flex:1;background:transparent;border:1px solid var(--linha);
+  color:var(--osso);font-family:var(--mono);font-size:1.05rem;
+  letter-spacing:.42em;text-align:center;padding:14px 10px;border-radius:3px;
+  transition:border-color .25s;
+}
+#senha::placeholder{letter-spacing:.28em;color:rgba(231,226,214,.22)}
+#senha:focus{outline:none;border-color:var(--latao)}
+#entrar{
+  background:var(--latao);border:none;color:#0B0D12;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;
+  text-transform:uppercase;padding:0 22px;border-radius:3px;cursor:pointer;
+  transition:filter .25s;
+}
+#entrar:hover{filter:brightness(1.12)}
+#erro{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;color:#B4574F;margin-top:16px;height:1em;opacity:0;
+  transition:opacity .25s;
+}
+#erro.visivel{opacity:1}
+.tremor{animation:tremor .32s}
+@keyframes tremor{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* ---------- ESTRUTURA ---------- */
+.env{width:100%;max-width:var(--max);margin:0 auto;padding:0 clamp(20px,5vw,44px)}
+.secao{padding:clamp(64px,9vw,118px) 0}
+.secao + .secao{border-top:1px solid var(--linha)}
+
+.etiqueta{
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--latao);
+  display:flex;align-items:center;gap:14px;margin-bottom:30px;
+}
+.etiqueta::after{content:'';flex:1;height:1px;background:var(--linha)}
+
+h2{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(1.7rem,4.6vw,2.9rem);line-height:1.04;
+  letter-spacing:-.025em;text-transform:uppercase;margin-bottom:34px;
+}
+h3{
+  font-family:var(--display);font-weight:600;
+  font-size:1.06rem;letter-spacing:-.005em;margin-bottom:6px;
+}
+p + p{margin-top:1.15em}
+.texto{max-width:var(--texto)}
+.texto p{color:rgba(231,226,214,.86)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+.hero-fundo{position:absolute;inset:0;z-index:0}
+.hero-fundo img{
+  width:100%;height:100%;object-fit:cover;object-position:center 38%;
+  filter:saturate(.52) contrast(1.06) brightness(.62);
+  transform:scale(1.06);
+  animation:respira 26s ease-in-out infinite alternate;
+}
+@keyframes respira{to{transform:scale(1.13)}}
+.hero-fundo::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(to top,var(--noite) 2%,rgba(11,13,18,.86) 30%,rgba(11,13,18,.42) 62%,rgba(11,13,18,.72) 100%),
+    linear-gradient(to right,rgba(11,13,18,.72),transparent 58%);
+}
+.hero-corpo{position:relative;z-index:1;width:100%;padding-bottom:clamp(52px,8vw,88px);padding-top:120px}
+.hero-selo{
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--latao);margin-bottom:26px;
+}
+h1{
+  font-family:var(--display);font-weight:800;
+  font-size:clamp(2.5rem,9vw,6.4rem);line-height:.92;
+  letter-spacing:-.038em;text-transform:uppercase;
+  max-width:15ch;
+}
+.hero-sub{
+  font-size:clamp(1.05rem,2.5vw,1.5rem);font-style:italic;font-weight:300;
+  color:rgba(231,226,214,.8);margin-top:22px;max-width:32ch;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;gap:10px 0;
+  margin-top:clamp(30px,5vw,46px);padding-top:24px;
+  border-top:1px solid var(--linha);
+}
+.hero-meta span{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--osso-fraco);padding-right:18px;margin-right:18px;
+  border-right:1px solid var(--linha);
+}
+.hero-meta span:last-child{border-right:none;margin-right:0;padding-right:0}
+
+/* ---------- LOGLINE ---------- */
+.logline{background:var(--catete)}
+.logline p{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(1.18rem,2.7vw,1.72rem);line-height:1.44;
+  letter-spacing:-.015em;max-width:34ch;color:var(--osso);
+}
+.logline .destaque{color:var(--latao)}
+
+/* ---------- BANDAS DE IMAGEM ---------- */
+.banda{position:relative;height:clamp(280px,54vw,560px);overflow:hidden;border-top:1px solid var(--linha);border-bottom:1px solid var(--linha)}
+.banda img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.1) brightness(.72)}
+.banda::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(11,13,18,.9),rgba(11,13,18,.1) 55%)}
+.banda-legenda{
+  position:absolute;z-index:2;left:0;right:0;bottom:0;
+  padding:0 clamp(20px,5vw,44px) clamp(22px,4vw,36px);
+}
+.banda-legenda span{
+  display:block;max-width:var(--max);margin:0 auto;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--osso-fraco);
+}
+
+/* ---------- SINOPSE ---------- */
+.sinopse-grade{display:grid;grid-template-columns:1fr;gap:clamp(38px,6vw,64px)}
+@media(min-width:960px){
+  .sinopse-grade{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);align-items:start}
+  .sinopse-lado{position:sticky;top:56px}
+}
+.sinopse-lado figure{margin-bottom:26px}
+.sinopse-lado img{width:100%;filter:grayscale(1) contrast(1.08) brightness(.86);border:1px solid var(--linha)}
+figcaption{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--osso-tenue);margin-top:10px;line-height:1.5;
+}
+
+.fonte{margin-top:1.15em}
+.fonte a{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--radio);text-decoration:none;
+  border-bottom:1px solid rgba(110,147,174,.35);padding-bottom:2px;
+  transition:color .3s,border-color .3s;
+}
+.fonte a:hover{color:var(--latao);border-color:var(--latao)}
+
+.video-bloco{margin-top:26px;max-width:var(--texto)}
+.video-moldura{
+  position:relative;width:100%;aspect-ratio:16/9;
+  background:#000;border:1px solid var(--linha);overflow:hidden;
+}
+.video-moldura iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-legenda{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--osso-tenue);margin-top:10px;
+}
+
+.cenas{
+  margin-top:clamp(40px,6vw,60px);
+  display:grid;grid-template-columns:1fr;gap:clamp(30px,4vw,40px);
+}
+@media(min-width:760px){.cenas{grid-template-columns:repeat(2,1fr)}}
+.cena-moldura{
+  position:relative;width:100%;aspect-ratio:16/9;
+  background:#000;border:1px solid var(--linha);overflow:hidden;
+}
+.cena-moldura iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.cena-legenda{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  margin-top:12px;
+}
+.cena-legenda strong{
+  font-family:var(--display);font-weight:600;font-size:.92rem;letter-spacing:-.005em;
+}
+.cena-legenda span{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--osso-tenue);white-space:nowrap;
+}
+
+/* carimbo — assinatura visual da página */
+.carimbo{
+  display:inline-block;margin:36px 0 6px;
+  border:2px solid rgba(198,154,62,.55);border-radius:2px;
+  padding:9px 20px 8px;transform:rotate(-3.2deg);
+  font-family:var(--mono);font-weight:500;font-size:.78rem;
+  letter-spacing:.34em;text-transform:uppercase;color:rgba(198,154,62,.78);
+}
+
+/* ---------- PERSONAGENS ---------- */
+.elenco{display:grid;grid-template-columns:1fr;gap:1px;background:var(--linha);border:1px solid var(--linha)}
+@media(min-width:700px){.elenco{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1040px){.elenco{grid-template-columns:repeat(3,1fr)}}
+.ficha{background:var(--noite);padding:0 0 28px}
+.ficha-retrato{height:230px;overflow:hidden;background:var(--catete);margin-bottom:22px}
+.ficha-retrato img{width:100%;height:100%;object-fit:cover;object-position:center 22%;filter:grayscale(1) contrast(1.1) brightness(.8);transition:filter .5s,transform .9s}
+.ficha:hover .ficha-retrato img{filter:grayscale(.5) contrast(1.1) brightness(.94);transform:scale(1.035)}
+.ficha-texto{padding:0 clamp(20px,3vw,28px)}
+.ficha-funcao{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--latao);margin-bottom:12px;
+}
+.ficha p{font-size:.94rem;line-height:1.68;color:rgba(231,226,214,.74);margin-top:10px}
+.ficha.dupla{grid-column:1/-1}
+@media(min-width:700px){.ficha.dupla{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:start}
+  .ficha.dupla .ficha-retrato{height:100%;min-height:230px;margin-bottom:0}
+  .ficha.dupla .ficha-texto{padding:22px clamp(20px,3vw,28px) 0}}
+
+/* ---------- ARCO ---------- */
+.arco-nota{
+  font-size:.96rem;color:var(--osso-fraco);max-width:60ch;
+  margin-bottom:clamp(38px,5vw,56px);font-style:italic;
+}
+.ep{
+  display:grid;grid-template-columns:1fr;gap:6px;
+  padding:26px 0;border-top:1px solid var(--linha);
+}
+.ep:last-child{border-bottom:1px solid var(--linha)}
+@media(min-width:820px){
+  .ep{grid-template-columns:76px minmax(0,240px) minmax(0,1fr);gap:0 32px;align-items:baseline;padding:28px 0}
+}
+.ep-num{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;
+  color:var(--latao);padding-top:4px;
+}
+.ep-titulo{font-family:var(--display);font-weight:600;font-size:1.14rem;letter-spacing:-.01em}
+.ep p{font-size:.95rem;line-height:1.66;color:rgba(231,226,214,.72)}
+.ep:hover .ep-titulo{color:var(--radio)}
+.ep-titulo{transition:color .3s}
+
+/* ---------- TOM ---------- */
+.tom{background:var(--catete)}
+.tom-topo{display:grid;grid-template-columns:1fr;gap:clamp(30px,5vw,60px);margin-bottom:clamp(46px,6vw,72px)}
+@media(min-width:880px){.tom-topo{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.tom-frase{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(1.16rem,2.5vw,1.58rem);line-height:1.42;letter-spacing:-.014em;
+}
+.tom-frase em{color:var(--radio);font-style:normal}
+.refs{display:grid;grid-template-columns:1fr;gap:1px;background:var(--linha);border:1px solid var(--linha)}
+@media(min-width:760px){.refs{grid-template-columns:repeat(2,1fr)}}
+.ref{background:var(--catete);padding:26px clamp(20px,3vw,28px)}
+.ref-nome{font-family:var(--display);font-weight:600;font-size:1rem;margin-bottom:4px}
+.ref-cred{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--osso-tenue);margin-bottom:12px}
+.ref p{font-size:.92rem;line-height:1.62;color:rgba(231,226,214,.72)}
+
+/* ---------- CONTATO ---------- */
+.contato{border-top:1px solid var(--linha);padding:clamp(64px,9vw,110px) 0 clamp(46px,6vw,72px)}
+.contato h2{margin-bottom:12px}
+.contato-sub{color:var(--osso-fraco);max-width:44ch;margin-bottom:40px}
+.links{display:flex;flex-wrap:wrap;gap:12px}
+.botao{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid var(--linha);border-radius:3px;
+  padding:14px 24px;text-decoration:none;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--osso);transition:border-color .3s,color .3s,background .3s;
+}
+.botao:hover{border-color:var(--latao);color:var(--latao)}
+.botao.forte{background:var(--latao);border-color:var(--latao);color:#0B0D12}
+.botao.forte:hover{filter:brightness(1.12);color:#0B0D12;background:var(--latao)}
+.rodape{
+  border-top:1px solid var(--linha);padding:26px 0 40px;
+  display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;
+}
+.rodape span{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--osso-tenue)}
+.rodape a{text-decoration:none;transition:color .3s}
+.rodape a:hover{color:var(--latao)}
+
+/* ---------- REVELAÇÃO ---------- */
+.rev{opacity:0;transform:translateY(22px);transition:opacity .85s cubic-bezier(.22,.61,.36,1),transform .85s cubic-bezier(.22,.61,.36,1)}
+.rev.dentro{opacity:1;transform:none}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .rev{opacity:1;transform:none}
+  .hero-fundo img{animation:none;transform:scale(1.02)}
+}
+:focus-visible{outline:2px solid var(--latao);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<!-- PORTÃO -->
+<div id="portao">
+  <div class="portao-caixa">
+    <div class="portao-selo">Documento reservado</div>
+    <div class="portao-titulo">Não Faças<br>Deles Mártires</div>
+    <div class="portao-sub">Juscelino e a noite em que perdeu o futuro</div>
+    <div class="portao-campo">
+      <input type="password" id="senha" inputmode="numeric" autocomplete="off" placeholder="••••" aria-label="Senha de acesso" maxlength="12">
+      <button id="entrar" type="button">Entrar</button>
+    </div>
+    <div id="erro" role="alert">Senha incorreta</div>
+  </div>
+</div>
+
+<main id="conteudo" hidden>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-fundo">
+      <img src="/jk/img/hero.jpg" alt="Juscelino Kubitschek assina um documento cercado de ministros e um general, no Palácio do Catete">
+    </div>
+    <div class="hero-corpo">
+      <div class="env">
+        <div class="hero-selo">Minissérie dramática · Brasil, 2026</div>
+        <h1>Não Faças Deles Mártires</h1>
+        <p class="hero-sub">Juscelino e a noite em que perdeu o futuro</p>
+        <div class="hero-meta">
+          <span>8 episódios</span>
+          <span>45–55 min</span>
+          <span>Drama político histórico</span>
+          <span>Streaming · Editais públicos</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- LOGLINE -->
+  <section class="secao logline">
+    <div class="env">
+      <div class="etiqueta rev">Logline</div>
+      <p class="rev">Em dezembro de 1959, JK vai enfrentar a mais longa noite da sua vida: militares sequestraram um avião com um senador entre os passageiros para forçar a renúncia do Presidente, que, caso não fosse feita voluntariamente, seria pela força, e a escalada das ações previa bombardear o Palácio do Catete. <span class="destaque">Cada decisão é um grão de areia em uma ampulheta, o tempo não está a favor e as consequências parecem drásticas não importa qual seja.</span></p>
+    </div>
+  </section>
+
+  <!-- BANDA 1 -->
+  <div class="banda">
+    <img src="/jk/img/aviao.jpg" alt="Passageiros embarcando em um avião comercial brasileiro nos anos 1950">
+    <div class="banda-legenda"><span>2 de dezembro de 1959 · Voo da Panair · 46 pessoas a bordo</span></div>
+  </div>
+
+  <!-- O PROJETO -->
+  <section class="secao">
+    <div class="env">
+      <div class="etiqueta rev">O projeto</div>
+      <div class="texto rev">
+        <p><em>Não Faças Deles Mártires</em> é uma série dramática que reconstrói as 36 horas da Revolta de Aragarças (2–3 de dezembro de 1959), o primeiro sequestro aéreo da história do Brasil, usadas como lente íntima para examinar o declínio do governo Juscelino Kubitschek e os mecanismos do golpe militar de 1964 e da tentativa de 2022.</p>
+        <p>O projeto combina rigor histórico e drama de câmara para contar a história de um estadista que acreditava poder salvar a democracia brasileira com inteligência política e descobriu, tarde demais, que a clemência pode ser o maior erro de um governante.</p>
+        <p>A série é produzida para plataformas de streaming e elegível a editais públicos de fomento ao audiovisual nacional.</p>
+      </div>
+
+      <div class="video-bloco rev">
+        <div class="video-moldura">
+          <iframe src="https://www.youtube-nocookie.com/embed/4op_iHpajb0" title="Revolta de Jacareacanga: um levante militar na selva para derrubar JK — Senado Federal" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-legenda">Revolta de Jacareacanga, 1956 · Senado Federal</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SINOPSE -->
+  <section class="secao">
+    <div class="env">
+      <div class="etiqueta rev">Sinopse</div>
+      <div class="sinopse-grade">
+        <div class="texto rev">
+          <p>Em 2 de dezembro de 1959, um avião comercial da Panair com 46 pessoas a bordo, entre elas o senador Remy Archer, aliado do presidente Juscelino Kubitschek, é sequestrado no ar por um grupo de militares dissidentes e desviado para Aragarças, uma cidade remota no interior de Goiás. É o primeiro sequestro aéreo da história do Brasil. O plano do grupo, autodenominado Comando Revolucionário, é claro: bombardear o Palácio do Catete e assassinar o presidente. Em paralelo, três aeronaves militares são roubadas da Base Aérea do Galeão. Aragarças torna-se o quartel-general da revolta.</p>
+
+          <p>A série acompanha as 36 horas seguintes pelos olhos de dois personagens fictícios que estavam ao lado de JK naquela madrugada: Pedro Sampaio, assessor civil da Presidência, idealista e democrata, filho de professor, que chegou ao Catete convicto de que servir às instituições era a coisa mais importante que um homem poderia fazer com a própria vida; e o major Antônio Galvão, oficial do Exército designado como elo entre o Catete e o Ministério da Guerra, que acredita nas Forças Armadas como coluna vertebral do Estado e vê, naquela madrugada, colegas trair tudo que juraram defender. Os dois desconfiam um do outro. E ambos servem a um presidente que joga xadrez enquanto o país pega fogo.</p>
+
+          <p>Aragarças não era o primeiro ensaio. Em fevereiro de 1956, dez dias após a posse de JK, o major Haroldo Veloso já havia liderado a Revolta de Jacareacanga, roubando um avião militar e ocupando aeroportos no Pará numa sexta-feira de Carnaval. JK sufocou a revolta em dezenove dias e, em seguida, concedeu anistia aos rebeldes. Veloso voltou à Aeronáutica. Foi promovido. Em 1959, lidera Aragarças. A anistia de 1956 havia ensinado ao movimento que o Estado democrático não puniria seus inimigos. Era uma lição que o movimento aprendeu melhor do que JK pretendia ensinar.</p>
+
+          <p>No Catete, JK recusa decretar o estado de sítio, o que daria à oposição o pretexto para contestar as eleições de 1960, e opta por sufocar a revolta pela via militar e pela inteligência política. O marechal Lott age com rapidez. Em menos de 36 horas, os rebeldes são derrotados. Um dos aviões é metralhado na pista e pega fogo. Os demais fogem para a Bolívia, o Paraguai e a Argentina. O senador Remy Archer, mantido como refém a bordo até o fim, é libertado em Buenos Aires junto com os outros passageiros, saudável e calculadamente intacto: ele nunca entrou em pânico, porque sabia que vivo valia mais do que morto para os rebeldes. O país respira aliviado. JK vence.</p>
+
+          <p>Mas entre os documentos apreendidos em Aragarças está um nome. Pedro lê cada folha durante uma noite inteira e, de manhã, entra no gabinete e coloca uma folha sobre a mesa do presidente. O nome é Castello Branco, chefe do Estado-Maior do Exército, homem cortês e meticuloso, que mandava bilhete de agradecimento após cada jantar. JK vai até a janela. Fica em pé por um longo tempo. Galvão, que soube do nome pelo relatório que circulou no Ministério da Guerra, olha para os ônibus pela janela do seu próprio escritório e pensa: alguém vai pagar por isso. Pensa: provavelmente não vai ser Castello Branco.</p>
+
+          <p>O inquérito é instaurado na primeira semana de dezembro de 1959. É arquivado na segunda semana. JK assina o despacho numa manhã de terça-feira, entre uma reunião sobre obras de Brasília e um almoço com o embaixador americano. A lógica é impecável: puxar o fio de Castello Branco significaria abrir uma crise que consumiria o governo e provavelmente não resultaria em punição, porque a rede era grande demais e as instituições não tinham robustez suficiente para processar uma ruptura daquela magnitude. Melhor passar à história como o presidente que sobreviveu a duas revoltas e entregou o mandato em paz. Pedro não contesta. Galvão rasga o bloco de notas em que havia calculado, em silêncio, quanto tempo o país ainda tinha.</p>
+
+          <div class="carimbo">Arquivado</div>
+
+          <p>Em abril de 1964, o marechal Humberto Castello Branco toma posse como presidente do Brasil. JK, em Paris com os direitos políticos cassados, lê a notícia num jornal francês. Dobra o papel. Vai até a janela. A série termina com um flashback: dezembro de 1959, JK assinando o despacho do arquivamento, o rosto concentrado, sem arrependimento visível. Corta para Paris. Em voz baixa, ele diz: eu sabia. Uma pausa. Mas não sabia. Ou sabia e escolheu não saber. Ou a diferença entre essas duas coisas é exatamente o que destruiu a democracia brasileira.</p>
+
+          <p>Em agosto de 1976, Pedro Sampaio ouve no rádio a notícia do acidente de JK na Via Dutra. Abre a gaveta. Tira uma pasta amarelada com uma fotocópia que fez naquela madrugada de dezembro de 1959. O nome de Castello Branco. Os documentos do Movimento de Recuperação Nacional. Não faz nada com ela. Antônio Galvão, já reformado, desliga a televisão e sai para andar. Caminha em círculos até parar num banco de praça. Pensa em Aragarças. Pensa nos cálculos que havia feito e rasgado. Havia calculado certo. Havia só não dito para ninguém.</p>
+
+          <p>Em 29 de maio de 2026, a Comissão Especial sobre Mortos e Desaparecidos Políticos aprova, por seis votos a um, que Juscelino Kubitschek foi assassinado pela ditadura militar. A certidão de óbito será alterada. Cinquenta anos depois, o Brasil dá o nome certo para uma coisa que deveria ter tido nome antes. <em>Não Faças Deles Mártires</em> é a história de como esse nome foi adiado, decisão a decisão, papel a papel, silêncio a silêncio.</p>
+        </div>
+
+        <aside class="sinopse-lado rev">
+          <figure>
+            <img src="/jk/img/jornal_panair.jpg" alt="Manchete de jornal de 1959 sobre a tripulação do Constellation da Panair aprisionada pelos rebeldes">
+            <figcaption>A tripulação do Constellation da Panair aprisionada pelos rebeldes · Imprensa, dezembro de 1959</figcaption>
+          </figure>
+          <figure>
+            <img src="/jk/img/aeroporto.jpg" alt="Avião sobrevoando um aeroporto de interior sob céu carregado">
+            <figcaption>Aragarças, interior de Goiás · Quartel-general da revolta</figcaption>
+          </figure>
+          <figure>
+            <img src="/jk/img/tribuna.jpg" alt="Primeira página da Tribuna da Imprensa com a manchete sobre oficiais da FAB que se rebelaram contra o governo">
+            <figcaption>Oficiais da FAB rebelam-se contra o governo · Tribuna da Imprensa</figcaption>
+          </figure>
+          <figure>
+            <img src="/jk/img/jk_catete.jpg" alt="Juscelino Kubitschek no Palácio do Catete">
+            <figcaption>Juscelino Kubitschek no Palácio do Catete, 1956–1960</figcaption>
+          </figure>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANDA 2 -->
+  <div class="banda">
+    <img src="/jk/img/rendicao.jpg" alt="Homens de braços erguidos se rendendo diante de soldados armados em uma pista de terra">
+    <div class="banda-legenda"><span>36 horas depois · A rendição</span></div>
+  </div>
+
+  <!-- PERSONAGENS -->
+  <section class="secao">
+    <div class="env">
+      <div class="etiqueta rev">Personagens principais</div>
+      <h2 class="rev">Quem está na sala<br>quando a decisão é tomada</h2>
+
+      <div class="elenco rev">
+
+        <article class="ficha">
+          <div class="ficha-retrato"><img src="/jk/img/jk_chapeu.jpg" alt="Juscelino Kubitschek acena com o chapéu diante de uma multidão"></div>
+          <div class="ficha-texto">
+            <div class="ficha-funcao">O protagonista</div>
+            <h3>Juscelino Kubitschek</h3>
+            <p>57 anos. Médico. Mineiro. O presidente que construiu Brasília. JK é um homem de inteligência excepcional que confunde pragmatismo com sabedoria e clemência com estratégia. Sua arrogância é a arrogância dos que se acham razoáveis demais para perder.</p>
+            <p>O arco do personagem é o arco do orgulho lúcido, do estadista que acredita ter o país sob controle ao homem que entende, tarde demais, que o controle era uma ilusão.</p>
+          </div>
+        </article>
+
+        <article class="ficha">
+          <div class="ficha-retrato"><img src="/jk/img/lott.jpg" alt="Retrato do marechal Henrique Teixeira Lott fardado"></div>
+          <div class="ficha-texto">
+            <div class="ficha-funcao">O escudo</div>
+            <h3>Marechal Henrique Lott</h3>
+            <p>Ministro da Guerra. Homem de uma palavra só, honra militar à moda antiga, ferocidade institucional. Sufoca a revolta em 36 horas. JK o lançará candidato à presidência em 1960 sabendo que ele vai perder, por dever.</p>
+          </div>
+        </article>
+
+        <article class="ficha">
+          <div class="ficha-retrato"><img src="/jk/img/castello.jpg" alt="Retrato do marechal Humberto de Alencar Castello Branco fardado"></div>
+          <div class="ficha-texto">
+            <div class="ficha-funcao">O antagonista silencioso</div>
+            <h3>Marechal Castello Branco</h3>
+            <p>Silencioso, cortês, irretocável. Seu nome aparece nos papéis apreendidos após o fracasso de Aragarças. O inquérito é arquivado. JK lê e decide não puxar o fio. Castello Branco sorri, continua sendo promovido, e em 1964 toma posse como presidente do Brasil. É o vilão que nunca precisa aparecer na sala para ganhar a partida.</p>
+          </div>
+        </article>
+
+        <article class="ficha">
+          <div class="ficha-retrato"><img src="/jk/img/multidao.jpg" alt="Multidão reunida em torno de um automóvel"></div>
+          <div class="ficha-texto">
+            <div class="ficha-funcao">O refém</div>
+            <h3>Senador Remy Archer</h3>
+            <p>Aliado pessoal de JK, homem do PSD do Maranhão. Sua presença a bordo do voo sequestrado humaniza a crise: enquanto o presidente raciocina em gráficos de poder, a mulher e os três filhos pequenos de Archer choram. Quando libertado em Buenos Aires, Archer volta um homem diferente.</p>
+          </div>
+        </article>
+
+        <article class="ficha">
+          <div class="ficha-retrato"><img src="/jk/img/veloso.jpg" alt="Retrato do major Haroldo Veloso"></div>
+          <div class="ficha-texto">
+            <div class="ficha-funcao">Os executores</div>
+            <h3>Ten.-Cel. Burnier e Maj. Haroldo Veloso</h3>
+            <p>Burnier é o arquiteto intelectual do golpe em Aragarças: frio, doutrinário, capaz. Veloso é o rosto da rebeldia: já havia liderado a Revolta de Jacareacanga em 1956, foi anistiado, promovido, e voltou. Ambos acreditam com sinistro fervor no que fazem. JK os vê de longe, em fotografias e relatórios. Não os teme. Deveria. Burnier será peça central da repressão após 1964.</p>
+          </div>
+        </article>
+
+        <article class="ficha">
+          <div class="ficha-retrato"><img src="/jk/img/sarah.jpg" alt="Sarah Kubitschek desce a escada de um avião"></div>
+          <div class="ficha-texto">
+            <div class="ficha-funcao">O espelho</div>
+            <h3>Sarah Kubitschek</h3>
+            <p>A esposa. A única pessoa diante de quem JK não atua. As cenas com Sarah no Catete, de madrugada, são onde a série encontra o homem por trás do estadista. Sarah é a voz que nomeia o que JK não quer ver.</p>
+          </div>
+        </article>
+
+        <article class="ficha dupla">
+          <div class="ficha-retrato"><img src="/jk/img/jk_militar.jpg" alt="Juscelino Kubitschek caminha ao lado de um oficial do Exército"></div>
+          <div class="ficha-texto">
+            <div class="ficha-funcao">Os olhos da série · Personagens ficcionais</div>
+            <h3>Pedro Sampaio e major Antônio Galvão</h3>
+            <p>Pedro, assessor civil da Presidência, idealista e democrata, filho de professor, chegou ao Catete convicto de que servir às instituições era a coisa mais importante que um homem poderia fazer com a própria vida. O major Galvão, designado como elo entre o Catete e o Ministério da Guerra, acredita nas Forças Armadas como coluna vertebral do Estado e vê, naquela madrugada, colegas trair tudo que juraram defender.</p>
+            <p>Os dois desconfiam um do outro. E ambos servem a um presidente que joga xadrez enquanto o país pega fogo.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCO -->
+  <section class="secao">
+    <div class="env">
+      <div class="etiqueta rev">Arco da série</div>
+      <h2 class="rev">Episódio a episódio</h2>
+      <p class="arco-nota rev">Cada episódio cobre aproximadamente 4 a 6 horas do presente dramático, as 36 horas da Revolta, com flashbacks e a perspectiva paralela de Aragarças entrelaçados.</p>
+
+      <div class="rev">
+        <article class="ep">
+          <div class="ep-num">Ep. 1</div>
+          <div class="ep-titulo">O Manifesto</div>
+          <p>JK recebe a notícia do desaparecimento do avião. O manifesto mimeografado chega ao Senado. Flashback: a posse de JK em 1956 sob ameaça de golpe. Aragarças: os rebeldes aterrissam e tomam a cidade. Personagens apresentados. Tom estabelecido.</p>
+        </article>
+
+        <article class="ep">
+          <div class="ep-num">Ep. 2</div>
+          <div class="ep-titulo">A Noite Longa</div>
+          <p>Lott chega ao Catete. A opção de decretar estado de sítio fica sobre a mesa. Remy Archer é identificado entre os reféns. Sarah acorda e confronta JK. Flashback: o contragolpe preventivo de Lott em novembro de 1955.</p>
+        </article>
+
+        <article class="ep">
+          <div class="ep-num">Ep. 3</div>
+          <div class="ep-titulo">Aragarças</div>
+          <p>Episódio centrado nos rebeldes: quem são, o que querem, por que acreditam. Veloso e Burnier debatem o próximo passo. Os reféns no Grande Hotel. Paralelamente, no Catete, JK estuda os papéis e o nome de Castello Branco aparece pela primeira vez.</p>
+        </article>
+
+        <article class="ep">
+          <div class="ep-num">Ep. 4</div>
+          <div class="ep-titulo">O Fio</div>
+          <p>A opção de puxar o fio de Castello Branco. JK consulta aliados. O Senado em sessão extraordinária: senadores da UDN flertam com os rebeldes publicamente. Flashback: a anistia de Jacareacanga em 1956, JK sorrindo para as câmeras.</p>
+        </article>
+
+        <article class="ep">
+          <div class="ep-num">Ep. 5</div>
+          <div class="ep-titulo">O Tabuleiro</div>
+          <p>JK decide: não decretar sítio, não puxar o fio. Lott recebe ordem para sufocar militarmente. Flashback: as reuniões onde JK subestima Castello Branco sistematicamente. Em Aragarças, o cerco se fecha.</p>
+        </article>
+
+        <article class="ep">
+          <div class="ep-num">Ep. 6</div>
+          <div class="ep-titulo">A Rendição</div>
+          <p>Os aviões rebeldes são metralhados. Um pega fogo na pista. Parte dos rebeldes se rende; os outros fogem para a Bolívia e Argentina. Os reféns são libertados. JK assiste pelo rádio. É uma vitória. Deveria parecer uma vitória.</p>
+        </article>
+
+        <article class="ep">
+          <div class="ep-num">Ep. 7</div>
+          <div class="ep-titulo">O Arquivamento</div>
+          <p>JK lê o relatório completo. O nome de Castello Branco. A decisão de arquivar. Flashback longo: a conversa que JK nunca teve com Castello Branco, imaginada e reconstruída pela série. Sarah diz o que ninguém mais diz. JK assina o despacho.</p>
+        </article>
+
+        <article class="ep">
+          <div class="ep-num">Ep. 8</div>
+          <div class="ep-titulo">Paris, 1964</div>
+          <p>Salto temporal. JK em Paris lê o jornal francês. A posse de Castello Branco. A cena final: o flashback para a assinatura do arquivamento. O homem que se achava mais esperto que o destino. Fim.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOM E REFERÊNCIAS -->
+  <section class="secao tom">
+    <div class="env">
+      <div class="etiqueta rev">Tom e referências</div>
+      <div class="tom-topo">
+        <div class="rev">
+          <h2>Drama político<br>de câmara</h2>
+        </div>
+        <div class="tom-frase rev">
+          Ritmo contido. Cenas longas. Diálogos onde o que importa está no que não é dito. A câmera não se agita, <em>observa</em>. O silêncio é personagem.
+        </div>
+      </div>
+
+      <div class="refs rev">
+        <div class="ref">
+          <div class="ref-nome">The Crown</div>
+          <div class="ref-cred">Netflix · 2016–2023</div>
+          <p>Contenção dramática, política de câmara, cenas de poder que respiram devagar.</p>
+        </div>
+        <div class="ref">
+          <div class="ref-nome">A Most Violent Year</div>
+          <div class="ref-cred">J.C. Chandor · 2014</div>
+          <p>Inteligência política como tragédia moral. O homem que tenta fazer a coisa certa dentro do sistema errado.</p>
+        </div>
+        <div class="ref">
+          <div class="ref-nome">Munique</div>
+          <div class="ref-cred">Steven Spielberg · 2005</div>
+          <p>Densidade processual, moral ambígua, protagonista que vai perdendo o chão sob os pés.</p>
+        </div>
+        <div class="ref">
+          <div class="ref-nome">Vargas</div>
+          <div class="ref-cred">Jorge Furtado · GloboNews · 2022</div>
+          <p>Referência nacional direta: a melancolia histórica do homem de Estado brasileiro, o drama sem maniqueísmo.</p>
+        </div>
+        <div class="ref">
+          <div class="ref-nome">Thirteen Days</div>
+          <div class="ref-cred">Roger Donaldson · 2000</div>
+          <p>O modelo de drama de sala de guerra: como tornar teatralmente vivo o que é essencialmente burocrático.</p>
+        </div>
+      </div>
+
+      <div class="cenas rev">
+        <div>
+          <div class="cena-moldura">
+            <iframe src="https://www.youtube-nocookie.com/embed/BTWLy6GBwK8" title="Munique — cena final" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="cena-legenda"><strong>Munique</strong><span>Cena final</span></div>
+        </div>
+        <div>
+          <div class="cena-moldura">
+            <iframe src="https://www.youtube-nocookie.com/embed/1DqzjoXz22c" title="Thirteen Days — trecho" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="cena-legenda"><strong>Thirteen Days</strong><span>Trecho</span></div>
+        </div>
+        <div>
+          <div class="cena-moldura">
+            <iframe src="https://www.youtube-nocookie.com/embed/0pGFi7kp_I0" title="Thirteen Days — a crise em quarentena" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="cena-legenda"><strong>Thirteen Days</strong><span>Análise de cena</span></div>
+        </div>
+        <div>
+          <div class="cena-moldura">
+            <iframe src="https://www.youtube-nocookie.com/embed/A_w6FTbeL8k" title="Referência de tom adicional" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="cena-legenda"><strong>Referência de tom</strong><span>Complementar</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANDA 3 -->
+  <div class="banda">
+    <img src="/jk/img/jornal_morte.jpg" alt="Primeira página do Jornal da Tarde com a manchete sobre a morte de Juscelino Kubitschek em 1976">
+    <div class="banda-legenda"><span>22 de agosto de 1976 · Via Dutra · Em 2026, a Comissão Especial reconhece o assassinato</span></div>
+  </div>
+
+  <!-- CONTATO -->
+  <footer class="contato">
+    <div class="env">
+      <div class="etiqueta rev">Contato</div>
+      <h2 class="rev">Caco Santana</h2>
+      <p class="contato-sub rev">Para conversar sobre o projeto, receber o tratamento completo ou discutir coprodução.</p>
+      <div class="links rev">
+        <a class="botao forte" href="https://wa.me/5511956563560" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="botao" href="mailto:cacowski@gmail.com">cacowski@gmail.com</a>
+        <a class="botao" href="https://cacosantana.com.br" target="_blank" rel="noopener">cacosantana.com.br</a>
+      </div>
+      <div class="rodape">
+        <span>Não Faças Deles Mártires · Documento reservado</span>
+        <span>Brasil · 2026</span>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  var SENHA = '1959';
+  var CHAVE = 'jk_acesso';
+  var portao = document.getElementById('portao');
+  var conteudo = document.getElementById('conteudo');
+  var campo = document.getElementById('senha');
+  var botao = document.getElementById('entrar');
+  var erro = document.getElementById('erro');
+
+  function liberar(instantaneo){
+    conteudo.hidden = false;
+    if(instantaneo){
+      portao.style.display = 'none';
+    } else {
+      portao.classList.add('saiu');
+      setTimeout(function(){ portao.style.display = 'none'; }, 700);
+    }
+    observar();
+  }
+
+  var jaEntrou = false;
+  try { jaEntrou = localStorage.getItem(CHAVE) === 'ok'; } catch(e){}
+
+  if(jaEntrou){
+    liberar(true);
+  } else {
+    setTimeout(function(){ campo.focus(); }, 350);
+  }
+
+  function tentar(){
+    if(campo.value.trim() === SENHA){
+      try { localStorage.setItem(CHAVE,'ok'); } catch(e){}
+      liberar(false);
+    } else {
+      erro.classList.add('visivel');
+      campo.classList.add('tremor');
+      campo.value = '';
+      setTimeout(function(){ campo.classList.remove('tremor'); }, 340);
+    }
+  }
+
+  botao.addEventListener('click', tentar);
+  campo.addEventListener('keydown', function(e){ if(e.key === 'Enter') tentar(); });
+  campo.addEventListener('input', function(){ erro.classList.remove('visivel'); });
+
+  function observar(){
+    var alvos = document.querySelectorAll('.rev');
+    if(!('IntersectionObserver' in window)){
+      alvos.forEach(function(el){ el.classList.add('dentro'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(entrada){
+        if(entrada.isIntersecting){
+          entrada.target.classList.add('dentro');
+          obs.unobserve(entrada.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    alvos.forEach(function(el){ obs.observe(el); });
+  }
+})();
+</script>
+
+</body>
+</html>
