@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F3F5F2">
+<title>Treino</title>
+<link rel="manifest" href="/treino/manifest.webmanifest">
+<link rel="icon" href="/treino/icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="/treino/icons/icon-192.png">
+<meta name="robots" content="noindex">
+<script src="/treino/jspdf.umd.min.js"></script>
+<script src="/treino/jspdf.plugin.autotable.min.js"></script>
+<style>
+@font-face{font-family:"Barlow";font-weight:400;font-style:normal;font-display:swap;src:url(/treino/fonts/barlow-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow";font-weight:500;font-style:normal;font-display:swap;src:url(/treino/fonts/barlow-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow";font-weight:600;font-style:normal;font-display:swap;src:url(/treino/fonts/barlow-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:500;font-style:normal;font-display:swap;src:url(/treino/fonts/barlow-condensed-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:600;font-style:normal;font-display:swap;src:url(/treino/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-style:normal;font-display:swap;src:url(/treino/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2")}
+:root{
+  --bg:#F3F5F2; --surface:#FFFFFF; --court:#E9EDEA; --ink:#17212B; --mute:#5F6B75; --hair:rgba(23,33,43,.12);
+  --red:#C41E3A; --maple:#B9844C; --pool:#1F7A8C; --on:#FFFFFF;
+  --cond:"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif;
+  --sans:"Barlow","Roboto","Segoe UI",system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#10171D; --surface:#18222A; --court:#1F2B34; --ink:#E8EDF0; --mute:#97A3AD; --hair:rgba(232,237,240,.13);
+    --red:#E5484D; --maple:#D49E63; --pool:#3FA6B8;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10171D; --surface:#18222A; --court:#1F2B34; --ink:#E8EDF0; --mute:#97A3AD; --hair:rgba(232,237,240,.13);
+  --red:#E5484D; --maple:#D49E63; --pool:#3FA6B8;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;padding-bottom:96px}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2.5px solid var(--pool);outline-offset:2px}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0 4px}
+.brand{font-family:var(--cond);font-weight:600;font-size:18px;color:var(--mute);letter-spacing:.02em}
+.link{background:none;border:0;padding:6px 0;font-size:15px;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.back{font-family:var(--cond);font-weight:600;font-size:19px;text-decoration:none;color:var(--ink);padding:6px 0;display:inline-flex;align-items:center;gap:6px}
+
+/* Início */
+.home-h{font-family:var(--cond);font-weight:700;font-size:46px;line-height:.95;margin:22px 0 6px}
+.home-p{color:var(--mute);margin:0 0 20px}
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mod{display:flex;flex-direction:column;justify-content:space-between;min-height:168px;border:0;border-radius:14px;padding:16px;text-align:left;color:var(--on);text-decoration:none}
+.mod.nat{background:var(--pool)}
+.mod.acad{background:var(--red)}
+.mod strong{font-family:var(--cond);font-weight:700;font-size:34px;line-height:1;letter-spacing:.01em}
+.mod .nx{display:block;font-size:14px;line-height:1.3;opacity:.92}
+.mod .nx b{display:block;font-family:var(--cond);font-weight:600;font-size:21px;opacity:1}
+.prog{display:block;height:5px;background:rgba(255,255,255,.3);border-radius:3px;overflow:hidden;margin-top:10px}
+.prog i{display:block;height:100%;background:#fff}
+
+.card{background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:16px;margin-top:16px}
+.card h2{font-family:var(--cond);font-weight:700;font-size:26px;margin:0 0 4px;line-height:1.05}
+.card p{margin:0 0 10px;font-size:15px}
+.card .sm{font-size:14px;color:var(--mute)}
+.toggles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 10px}
+.tg{border:1.5px solid var(--hair);background:var(--bg);border-radius:10px;padding:12px;font-weight:600;font-size:16px}
+.tg[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:12px;color:var(--mute)}
+.week span{display:block;height:6px;border-radius:2px;background:var(--hair);margin:4px 2px 0}
+.week span.half{background:linear-gradient(90deg,var(--pool) 50%,var(--hair) 50%)}
+.week span.full{background:var(--pool)}
+details.more summary{cursor:pointer;color:var(--ink);font-weight:500;font-size:15px;padding:4px 0}
+details.more p{margin:6px 0 0}
+
+/* Sessão */
+.s-head{padding:12px 0 14px;border-bottom:3px solid var(--accent,var(--red));margin-bottom:8px}
+.kicker{font-size:14px;color:var(--mute);margin:0}
+.s-head h1{font-family:var(--cond);font-weight:700;font-size:48px;line-height:.95;margin:4px 0 8px}
+.s-head p{margin:0 0 6px;max-width:62ch}
+.rule{font-size:14px;color:var(--mute)}
+.pills{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:14px 0 2px}
+.pill{border:1.5px solid var(--hair);background:var(--surface);border-radius:6px;padding:5px 0;font-family:var(--cond);font-weight:600;font-size:15px;text-align:center;text-decoration:none;color:var(--ink)}
+.pill.done{background:var(--accent);border-color:var(--accent);color:var(--on)}
+.pill[aria-current="page"]{outline:2px solid var(--ink);outline-offset:1px}
+
+.blk{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:14px;margin-top:10px}
+.blk-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.bt{font-family:var(--cond);font-weight:600;font-size:23px;line-height:1.1}
+.dist{font-family:var(--cond);font-weight:600;font-size:18px;color:var(--accent);white-space:nowrap}
+.sec{font-size:13px;color:var(--mute);margin:0 0 2px}
+.rx{margin:6px 0 0;font-size:15px}
+.rest{font-size:14px;color:var(--mute);margin:4px 0 0}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 0}
+.seg button{border:1.5px solid var(--hair);background:var(--bg);border-radius:8px;padding:8px;font-weight:600;font-size:15px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.stage{background:var(--court);border-radius:10px;overflow:hidden;margin:12px 0 0}
+.stage svg{display:block;width:100%;height:auto;max-height:230px}
+.fields{display:grid;grid-template-columns:110px 1fr;gap:10px;margin-top:12px}
+.fields.one{grid-template-columns:1fr}
+.fields label{display:block;font-size:13px;color:var(--mute);margin-bottom:4px}
+.hint{font-size:12.5px;color:var(--mute);margin-top:4px;line-height:1.3}
+input,textarea,select{width:100%;border:1.5px solid var(--hair);background:var(--bg);border-radius:8px;padding:10px 11px;font-size:16px}
+textarea{min-height:46px;resize:vertical}
+.kg{font-family:var(--cond);font-weight:600;font-size:22px;padding:7px 10px}
+
+.done-box{margin-top:18px;padding:16px;border-radius:14px;background:var(--surface);border:1px solid var(--hair)}
+.done-box h2{font-family:var(--cond);font-weight:700;font-size:26px;margin:0 0 8px}
+.donebtn{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;border:2px solid var(--accent);background:none;border-radius:12px;padding:14px;font-family:var(--cond);font-weight:700;font-size:24px;text-align:left}
+.donebtn .box{width:28px;height:28px;border:2.5px solid var(--accent);border-radius:7px;flex:none;display:grid;place-items:center}
+.donebtn[aria-pressed="true"]{background:var(--accent);color:var(--on)}
+.donebtn[aria-pressed="true"] .box{border-color:var(--on)}
+.donebtn .box svg{display:none}
+.donebtn[aria-pressed="true"] .box svg{display:block}
+.donemeta{font-size:14px;color:var(--mute);margin:8px 0 0}
+.nextbtn{display:block;margin-top:12px;text-align:center}
+
+.limb{fill:none;stroke:var(--ink);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.limb.far{stroke-opacity:.3}
+.limb.torso{stroke-width:8}
+.headc{fill:var(--ink)}
+.ghost{opacity:.28}
+.eq{fill:none;stroke:var(--maple);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.eqf{fill:var(--maple)}
+.plate{fill:var(--red)}
+.hub{fill:var(--court)}
+.dbh{fill:var(--mute)}
+.breath{fill:var(--pool);fill-opacity:.35}
+.cable{stroke:var(--mute);stroke-width:1.5}
+.floor{fill:var(--maple);opacity:.55}
+
+.btn{border:0;border-radius:9px;padding:12px 14px;font-weight:600;font-size:16px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn.red{background:var(--red);color:var(--on)}
+.btn.line{background:none;border:1.5px solid var(--hair);color:var(--ink)}
+.btn.ink{background:var(--ink);color:var(--bg)}
+.btn.acc{background:var(--accent);color:var(--on)}
+
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--hair);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));z-index:20}
+.bar .wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0}
+.bar .btn{white-space:nowrap;font-size:15px}
+
+.sheet-bg{position:fixed;inset:0;background:rgba(10,15,20,.45);z-index:40;display:none;align-items:flex-end;justify-content:center}
+.sheet-bg.on{display:flex}
+.sheet{background:var(--surface);width:100%;max-width:680px;border-radius:16px 16px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));max-height:90%;overflow:auto}
+.sheet h2{font-family:var(--cond);font-weight:700;font-size:30px;margin:0 0 6px}
+.sheet p{margin:0 0 12px;font-size:15px;color:var(--mute)}
+.sheet label{display:block;font-size:13px;color:var(--mute);margin:12px 0 4px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:15px;color:var(--ink)}
+.check input{width:20px;height:20px;margin-top:2px;flex:none}
+.actions{display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-top:16px}
+.preview{font-size:13px;min-height:120px;color:var(--mute)}
+
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:9px;font-size:15px;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%;text-align:center}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap" id="view"></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn line" id="openReport">Emitir relatório</button>
+  <button class="btn ink" id="openCoach">Falar com o coach</button>
+</div></nav>
+
+<div class="sheet-bg" id="reportSheet" role="dialog" aria-modal="true" aria-labelledby="rpTitle">
+  <div class="sheet">
+    <h2 id="rpTitle">Relatório em PDF</h2>
+    <p>Tabela com exercício, peso, data e observação, seguida dos gráficos de desempenho por carga e da distância nadada.</p>
+    <label for="rpPeriod">Período</label>
+    <select id="rpPeriod">
+      <option value="all">Todo o histórico</option>
+      <option value="30">Últimos 30 dias</option>
+      <option value="custom">Escolher datas</option>
+    </select>
+    <div class="row2" id="rpCustom" hidden>
+      <div><label for="rpFrom">De</label><input type="date" id="rpFrom"></div>
+      <div><label for="rpTo">Até</label><input type="date" id="rpTo"></div>
+    </div>
+    <div class="actions">
+      <button class="btn line" data-close>Cancelar</button>
+      <button class="btn red" id="makePdf">Gerar PDF</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-bg" id="coachSheet" role="dialog" aria-modal="true" aria-labelledby="chTitle">
+  <div class="sheet">
+    <h2 id="chTitle">Falar com o coach</h2>
+    <p>O texto abaixo vai para a área de transferência e o Gemini abre na sua conta Google. Lá, é só colar e enviar.</p>
+    <label for="chQ">Sua mensagem</label>
+    <textarea id="chQ" placeholder="Ex.: o step-up ficou pesado na perna esquerda, ajusto?"></textarea>
+    <label class="check"><input type="checkbox" id="chCtx" checked> Incluir as últimas sessões concluídas e as próximas</label>
+    <label for="chLink">Link da conversa do coach no Gemini (opcional)</label>
+    <input type="url" id="chLink" placeholder="https://gemini.google.com/app/…" inputmode="url">
+    <label for="chPrev">Texto que será enviado</label>
+    <textarea id="chPrev" class="preview" readonly></textarea>
+    <div class="actions">
+      <button class="btn line" data-close>Fechar</button>
+      <a class="btn red" id="chGo" href="https://gemini.google.com/app" target="_blank" rel="noopener">Copiar e abrir o Gemini</a>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-bg" id="backupSheet" role="dialog" aria-modal="true" aria-labelledby="bkTitle">
+  <div class="sheet">
+    <h2 id="bkTitle">Backup dos registros</h2>
+    <p>Exporte uma cópia das anotações e sessões concluídas para guardar no Drive ou levar para outro aparelho. Ao importar, o arquivo se soma ao que já está aqui, prevalecendo a anotação mais recente de cada sessão.</p>
+    <div class="actions"><button class="btn line" id="impBtn">Importar</button><button class="btn red" id="expBtn">Exportar backup</button></div>
+    <input type="file" id="impFile" accept=".json,application/json" hidden>
+    <div class="actions" style="grid-template-columns:1fr"><button class="btn line" data-close>Fechar</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ================= Ilustrações ================= */
+const ST={
+  floor:'<rect class="floor" x="0" y="150" width="200" height="8"/>',
+  bench:'<rect class="eqf" x="34" y="112" width="104" height="7" rx="2"/><line class="eq" x1="46" y1="119" x2="46" y2="150"/><line class="eq" x1="126" y1="119" x2="126" y2="150"/>',
+  lowBench:'<rect class="eqf" x="20" y="104" width="52" height="7" rx="2"/><line class="eq" x1="30" y1="111" x2="30" y2="150"/><line class="eq" x1="62" y1="111" x2="62" y2="150"/>',
+  incline:'<line class="eq" x1="60" y1="126" x2="118" y2="88"/><line class="eq" x1="74" y1="118" x2="74" y2="150" style="stroke-width:4"/><line class="eq" x1="108" y1="96" x2="108" y2="150" style="stroke-width:4"/>',
+  legpress:'<line class="eq" x1="36" y1="90" x2="62" y2="140"/><line class="eq" x1="62" y1="140" x2="94" y2="140"/><line class="eq" x1="98" y1="150" x2="182" y2="66" style="stroke-width:3;opacity:.6"/>',
+  pulldown:'<rect class="eqf" x="74" y="114" width="36" height="6" rx="2"/><line class="eq" x1="92" y1="120" x2="92" y2="150" style="stroke-width:4"/><rect class="eqf" x="114" y="96" width="20" height="7" rx="3"/><line class="eq" x1="100" y1="-18" x2="160" y2="-18" style="stroke-width:4"/><circle class="eqf" cx="100" cy="-18" r="5"/>',
+  step:'<rect class="eqf" x="112" y="118" width="46" height="32" rx="2"/>',
+  wall:'<rect class="eqf" x="60" y="-24" width="10" height="174" opacity=".7"/>',
+  post:'<rect class="eqf" x="24" y="-10" width="8" height="160" opacity=".8"/><circle class="eqf" cx="34" cy="56" r="5"/>'
+};
+const plate=(x,y,r=12)=>`<circle class="plate" cx="${x}" cy="${y}" r="${r}"/><circle class="hub" cx="${x}" cy="${y}" r="3"/>`;
+const dbh=(x,y)=>`<circle class="dbh" cx="${x}" cy="${y}" r="6"/>`;
+const breathAt=(p,dy=0)=>`<circle class="breath" cx="${((p.s[0]+p.p[0])/2).toFixed(1)}" cy="${((p.s[1]+p.p[1])/2+dy).toFixed(1)}" r="${p.br.toFixed(1)}"/>`;
+
+const EX={
+  thoracic_rot:{name:'Rotação torácica em quatro apoios',poses:[
+    {s:[120,106],p:[78,106],k:[78,146],a:[44,146],t:[40,150],e:[120,126],h:[120,146]},
+    {s:[118,102],p:[78,106],k:[78,146],a:[44,146],t:[40,150],e:[124,80],h:[128,56],e2:[120,124],h2:[120,146]}]},
+  mobility:{name:'Círculos com os braços e mobilidade de tornozelo',poses:[
+    {a:[100,146],t:[111,149],k:[101,112],p:[100,78],s:[100,34],e:[102,12],h:[104,-10]},
+    {a:[100,146],t:[111,149],k:[101,112],p:[100,78],s:[100,34],e:[124,38],h:[148,40]},
+    {a:[100,146],t:[111,149],k:[101,112],p:[100,78],s:[100,34],e:[100,58],h:[100,80]}]},
+  goblet:{name:'Goblet Squat',dyn:p=>dbh(p.h[0],p.h[1]-5)+dbh(p.h[0],p.h[1]+7),poses:[
+    {a:[100,146],t:[111,149],k:[102,112],p:[98,78],s:[100,34],e:[108,58],h:[112,46]},
+    {a:[100,146],t:[111,149],k:[120,116],p:[84,118],s:[102,74],e:[112,96],h:[114,84]}]},
+  leg_press:{name:'Leg Press 45°',stat:ST.legpress,dyn:p=>{const c=[p.a[0]+5,p.a[1]-5];return `<line class="eq" x1="${c[0]-12}" y1="${c[1]-12}" x2="${c[0]+12}" y2="${c[1]+12}" style="stroke:var(--red)"/>`},poses:[
+    {p:[74,132],s:[50,90],e:[64,116],h:[80,128],k:[84,92],a:[110,100],t:[104,90]},
+    {p:[74,132],s:[50,90],e:[64,116],h:[80,128],k:[108,100],a:[138,72],t:[132,62]}]},
+  step_up:{name:'Step-Up na caixa',stat:ST.step,poses:[
+    {p:[96,84],k:[124,82],a:[124,114],t:[135,117],k2:[90,116],a2:[82,146],t2:[93,149],s:[104,40],e:[104,64],h:[104,86]},
+    {p:[122,46],k:[124,80],a:[124,114],t:[135,117],k2:[118,82],a2:[114,112],t2:[124,116],s:[124,2],e:[124,26],h:[124,48]}]},
+  hip_thrust:{name:'Elevação pélvica (Hip Thrust)',stat:ST.lowBench,dyn:p=>plate(p.p[0],p.p[1]-13,11),poses:[
+    {s:[64,102],p:[96,134],k:[122,112],a:[128,146],t:[138,149],e:[78,124],h:[94,122]},
+    {s:[64,102],p:[100,104],k:[130,106],a:[128,146],t:[138,149],e:[80,100],h:[98,92]}]},
+  plank:{name:'Prancha frontal com respiração diafragmática',dyn:p=>breathAt(p,8),poses:[
+    {s:[140,112],p:[96,124],k:[62,132],a:[32,140],t:[28,148],e:[140,144],h:[160,146],br:3},
+    {s:[140,112],p:[96,124],k:[62,132],a:[32,140],t:[28,148],e:[140,144],h:[160,146],br:11}]},
+  wall_slide:{name:'Rotação escapular na parede',stat:ST.wall,poses:[
+    {a:[88,146],t:[99,149],k:[84,112],p:[80,78],s:[80,34],e:[82,52],h:[82,30]},
+    {a:[88,146],t:[99,149],k:[84,112],p:[80,78],s:[80,34],e:[82,12],h:[83,-12]}]},
+  pulldown:{name:'Lat Pulldown pegada neutra',stat:ST.pulldown,dyn:p=>`<line class="cable" x1="100" y1="-18" x2="${p.h[0]}" y2="${p.h[1]}"/><line class="eq" x1="${p.h[0]-8}" y1="${p.h[1]}" x2="${p.h[0]+8}" y2="${p.h[1]}" style="stroke:var(--red);stroke-width:4"/>`,poses:[
+    {p:[92,110],k:[124,112],a:[124,146],t:[134,149],s:[92,66],e:[97,42],h:[100,20]},
+    {p:[92,110],k:[124,112],a:[124,146],t:[134,149],s:[88,66],e:[80,92],h:[98,64]}]},
+  cs_row:{name:'Chest-Supported Row com halteres',stat:ST.incline,dyn:p=>dbh(p.h[0],p.h[1]),poses:[
+    {p:[70,112],s:[118,78],k:[54,134],a:[42,140],t:[46,150],e:[124,102],h:[126,126]},
+    {p:[70,112],s:[118,78],k:[54,134],a:[42,140],t:[46,150],e:[98,78],h:[104,102]}]},
+  db_bench:{name:'Supino reto com halteres',stat:ST.bench,dyn:p=>dbh(p.h[0],p.h[1]),poses:[
+    {s:[56,106],p:[116,106],k:[144,110],a:[150,146],t:[160,149],e:[70,110],h:[70,90]},
+    {s:[56,106],p:[116,106],k:[144,110],a:[150,146],t:[160,149],e:[58,84],h:[60,62]}]},
+  pallof:{name:'Pallof Press',stat:ST.post,back:true,dyn:p=>`<line class="cable" x1="38" y1="56" x2="${p.h[0]}" y2="${p.h[1]}"/>`,poses:[
+    {a:[104,146],t:[115,149],a2:[90,146],t2:[101,149],k:[104,112],k2:[92,112],p:[97,78],s:[99,34],e:[106,58],h:[116,50]},
+    {a:[104,146],t:[115,149],a2:[90,146],t2:[101,149],k:[104,112],k2:[92,112],p:[97,78],s:[99,34],e:[124,48],h:[148,48]}]}
+};
+
+/* ================= Plano ================= */
+const MODS={
+  nat:{label:'Natação',accent:'var(--pool)',rule:'Sem contrarrelógio: o objetivo é reserva de VO₂, complacência pulmonar e expansão torácica.'},
+  acad:{label:'Academia',accent:'var(--red)',rule:'Sem prender a respiração (sem Valsalva): inspire na descida e expire ativamente pela boca na subida, ao fazer força.'}
+};
+const PLANS={
+  natA:{mod:'nat',name:'Natação A',day:'Segunda',focus:'Capacidade aeróbica contínua e volume pulmonar.',total:'1.400 a 1.600 m',blocks:[
+    {t:'Aquecimento',d:'300 m',rx:'200 m crawl relaxado e 100 m de costas bem solto, alongando os braços lá atrás.'},
+    {t:'Série principal, ritmo A2 contínuo',d:'800 a 1.000 m',rx:'4 a 5 × 200 m livre em ritmo estável e confortável (esforço 65–70%, sensação de nado infinito, sem queimação muscular). Respiração bilateral estrita, a cada 3 braçadas, para que os dois hemitórax expandam por igual.',rest:'30 s entre cada 200 m'},
+    {t:'Bloco respiratório e abertura',d:'200 m',rx:'4 × 50 m: 25 m de costas respirando fundo e enchendo o peito a cada braçada, mais 25 m de peito com deslize longo.'},
+    {t:'Soltura',d:'100 m',rx:'Nado livre soltando todo o ar embaixo d’água pelo nariz.'}]},
+  natB:{mod:'nat',name:'Natação B',day:'Quarta',focus:'Fracionado com pull buoy e controle de cadência.',total:'1.400 m',blocks:[
+    {t:'Aquecimento',d:'300 m',rx:'300 m de crawl solto em A1.'},
+    {t:'Série com pull buoy',d:'800 m',rx:'8 × 100 m livre com pull buoy entre as pernas, isolando a caixa torácica e poupando as pernas. Repetições ímpares respirando a cada 3 braçadas; pares a cada 4 ou 5, em hipóxia leve, para o diafragma trabalhar com maior volume corrente.',rest:'20 s'},
+    {t:'Trabalho escapular suave',d:'200 m',rx:'4 × 50 m de costas com pernada suave, sentindo o peitoral alongar na entrada da mão na água.'},
+    {t:'Soltura',d:'100 m',rx:'100 m solto e relaxado.'}]},
+  acadA:{mod:'acad',name:'Academia A',day:'Terça',focus:'Pernas e autonomia de leito: levantar da cama, sentar e andar usando só os membros inferiores, sem empurrar com os braços nem contrair o tórax.',blocks:[
+    {sec:'Mobilidade ativa, 8 min',ex:'thoracic_rot',rx:'2 séries de 8 rotações por lado, abrindo o peito e levando o braço ao teto.',load:false},
+    {sec:'Mobilidade ativa, 8 min',ex:'mobility',rx:'Círculos com os braços e mobilidade de tornozelo.',load:false},
+    {sec:'Força funcional bilateral, sem carga axial na coluna',choice:['goblet','leg_press'],rx:'4 × 8 a 10 reps com carga moderada (RPE 7–8). No goblet, o haltere fica seguro na vertical junto ao peito.',rest:'90 s'},
+    {sec:'Força unilateral, autonomia de marcha',ex:'step_up',rx:'3 × 8 reps por perna, em caixa ou banco médio. Suba impulsionando só pela perna da frente, sem impulso da de trás.',rest:'90 s'},
+    {sec:'Cadeia posterior poupando a lombar',ex:'hip_thrust',rx:'3 × 10 reps com barra ou haltere, travando os glúteos no topo por 2 s.',rest:'90 s'},
+    {sec:'Core anterior sem flexão de tronco',ex:'plank',rx:'3 × 30 s com o corpo reto, puxando o ar e inflando o abdômen, depois soltando até esvaziar totalmente.',load:false}]},
+  acadB:{mod:'acad',name:'Academia B',day:'Quinta',focus:'Membros superiores neutros e costas: dorsais e estabilizadores da escápula fortes para sustentar a postura ereta, sem estresse nos portais intercostais.',blocks:[
+    {sec:'Mobilidade escapular, 8 min',ex:'wall_slide',rx:'Rotação escapular na parede e alongamento suave de peitoral na quina ou no batente da porta.',load:false},
+    {sec:'Tração vertical apoiada',ex:'pulldown',rx:'4 × 8 a 10 reps @ RPE 7–8, com pegada triângulo ou neutra (palmas voltadas uma para a outra), que poupa o ombro e acomoda melhor as costelas.',rest:'90 s'},
+    {sec:'Tração horizontal apoiada',ex:'cs_row',rx:'4 × 8 a 10 reps com banco a 30°, puxando pelos cotovelos e sustentando 1 s no pico.',rest:'90 s'},
+    {sec:'Empurrar horizontal submáximo',ex:'db_bench',rx:'3 × 8 a 10 reps em amplitude confortável, sem deixar os cotovelos descerem além da linha do tronco.',rest:'90 s'},
+    {sec:'Estabilidade de core anti-rotação',ex:'pallof',rx:'3 × 10 reps por lado na polia ou elástico, sustentando 2 s em cada uma.',rest:'60 s'}]}
+};
+const SESS=[];
+['nat','acad'].forEach(m=>{for(let i=0;i<12;i++)SESS.push({id:m+(i+1),mod:m,n:i+1,plan:m+(i%2?'B':'A'),week:Math.floor(i/2)+1})});
+const SBY=Object.fromEntries(SESS.map(s=>[s.id,s]));
+const sessOf=m=>SESS.filter(s=>s.mod===m);
+
+/* ================= Estado ================= */
+const LS='treino-preop-v1';
+const state={logs:{},breath:{},coachLink:''};
+function load(){try{const d=JSON.parse(localStorage.getItem(LS))||{};state.logs=d.logs||{};state.breath=d.breath||{};state.coachLink=d.coachLink||''}catch(e){}}
+function persist(){try{localStorage.setItem(LS,JSON.stringify(state))}catch(e){toast('Não foi possível salvar neste aparelho')}}
+const log=id=>state.logs[id]||(state.logs[id]={f:{},note:'',dist:'',done:false,doneAt:'',date:'',upd:0});
+const touch=l=>{if(!l.date)l.date=isoToday();l.upd=Date.now()};
+
+/* ================= Utilidades ================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const isoOf=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const isoToday=()=>isoOf(new Date());
+const isoMinus=n=>{const d=new Date();d.setDate(d.getDate()-n);return isoOf(d)};
+const br=iso=>{if(!iso)return'';const[y,m,d]=iso.split('-');return `${d}/${m}/${y}`};
+const num=v=>v==null||v===''?'':Number(v).toLocaleString('pt-BR',{maximumFractionDigits:2});
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2600)}
+const sDate=l=>l.doneAt||l.date||'';
+const blockEx=(b,f)=>b.choice?((f&&f.ex)||b.choice[0]):b.ex;
+const blockName=(plan,b,f)=>b.ex||b.choice?EX[blockEx(b,f)].name:`${b.t} (${PLANS[plan].name})`;
+function nextOf(m){return sessOf(m).find(s=>!(state.logs[s.id]&&state.logs[s.id].done))||null}
+
+/* ================= Animação ================= */
+const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SEG=950,HOLD=380;
+const norm=p=>({...p,k2:p.k2||p.k,a2:p.a2||p.a,t2:p.t2||p.t,e2:p.e2||p.e,h2:p.h2||p.h,br:p.br||0});
+function lerp(a,b,t){const o={};for(const k in a){const x=a[k],y=b[k];o[k]=Array.isArray(x)?[x[0]+(y[0]-x[0])*t,x[1]+(y[1]-x[1])*t]:x+(y-x)*t}return o}
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function poseAt(ex,ms){
+  const n=ex.poses.length,seq=[...Array(n).keys()];for(let i=n-2;i>0;i--)seq.push(i);
+  const per=HOLD+SEG,t=ms%(seq.length*per),k=Math.floor(t/per),r=t-k*per,a=seq[k],b=seq[(k+1)%seq.length];
+  if(r<HOLD)return norm(ex.poses[a]);
+  return lerp(norm(ex.poses[a]),norm(ex.poses[b]),ease((r-HOLD)/SEG));
+}
+const pts=(...p)=>p.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ');
+function body(ex,p){
+  const dx=p.s[0]-p.p[0],dy=p.s[1]-p.p[1],L=Math.hypot(dx,dy)||1,hc=[p.s[0]+dx/L*15,p.s[1]+dy/L*15];
+  const prop=ex.dyn?ex.dyn(p):'';
+  return (ex.back?prop:'')+
+    `<polyline class="limb far" points="${pts(p.p,p.k2,p.a2,p.t2)}"/><polyline class="limb far" points="${pts(p.s,p.e2,p.h2)}"/>`+
+    `<polyline class="limb torso" points="${pts(p.s,p.p)}"/><polyline class="limb" points="${pts(p.p,p.k,p.a,p.t)}"/>`+
+    `<circle class="headc" cx="${hc[0].toFixed(1)}" cy="${hc[1].toFixed(1)}" r="9.5"/><polyline class="limb" points="${pts(p.s,p.e,p.h)}"/>`+
+    (ex.back?'':prop);
+}
+const figHTML=(id,key)=>`<div class="stage"><svg viewBox="0 -26 200 184" role="img" aria-label="Execução: ${esc(EX[id].name)}">${ST.floor}${EX[id].stat||''}<g class="fig" data-ex="${id}" id="fig-${key}"></g></svg></div>`;
+let raf=null,visible=new Set(),io=null;
+function setupFigs(){
+  if(io)io.disconnect();visible.clear();
+  const figs=[...document.querySelectorAll('g.fig')];
+  figs.forEach(g=>{const ex=EX[g.dataset.ex];const f=norm(ex.poses[0]),l=norm(ex.poses[ex.poses.length-1]);g.innerHTML=reduce?`<g class="ghost">${body(ex,f)}</g>${body(ex,l)}`:body(ex,f)});
+  if(reduce||!figs.length)return;
+  io=new IntersectionObserver(es=>es.forEach(e=>{const g=e.target.querySelector('g.fig');if(e.isIntersecting)visible.add(g);else visible.delete(g)}),{rootMargin:'60px'});
+  figs.forEach(g=>io.observe(g.closest('.stage')));
+  if(!raf){const t0=performance.now();const tick=now=>{visible.forEach(g=>{if(g.isConnected)g.innerHTML=body(EX[g.dataset.ex],poseAt(EX[g.dataset.ex],now-t0))});raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)}
+}
+
+/* ================= Telas ================= */
+const view=$('#view');
+const checkSvg='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+
+function route(){
+  const h=location.hash.replace(/^#\/?/,'');
+  const m=h.match(/^(nat|acad)(\d+)$/);
+  if(m&&SBY[h]) renderSession(h); else renderHome();
+  window.scrollTo(0,0);
+}
+
+function modCard(m){
+  const nx=nextOf(m),done=sessOf(m).filter(s=>state.logs[s.id]&&state.logs[s.id].done).length;
+  const label=nx?`<b>Sessão ${nx.n} de 12</b>${PLANS[nx.plan].name}, semana ${nx.week}`:`<b>Ciclo concluído</b>12 de 12 sessões`;
+  return `<a class="mod ${m}" href="#/${nx?nx.id:m+'12'}"><strong>${MODS[m].label.toUpperCase()}</strong><span class="nx">${label}<span class="prog"><i style="width:${done/12*100}%"></i></span></span></a>`;
+}
+
+function renderHome(){
+  document.documentElement.style.removeProperty('--accent');
+  const t=isoToday(),b=state.breath[t]||{};
+  const days=[...Array(7)].map((_,i)=>{const iso=isoMinus(6-i),x=state.breath[iso]||{},c=(x.m?1:0)+(x.n?1:0);const wd=['D','S','T','Q','Q','S','S'][new Date(iso+'T12:00').getDay()];return `<div>${wd}<span class="${c===2?'full':c===1?'half':''}"></span></div>`}).join('');
+  view.innerHTML=`
+    <div class="top"><span class="brand">Treino</span><button class="link" data-open="backupSheet">Backup</button></div>
+    <h1 class="home-h">Seis semanas,<br>24 sessões.</h1>
+    <p class="home-p">Escolha a modalidade: o app abre na primeira sessão ainda não concluída.</p>
+    <div class="mods">${modCard('nat')}${modCard('acad')}</div>
+    <section class="card">
+      <h2>Respiração diária</h2>
+      <p class="sm">Ciclo ativo da respiração, 5 minutos, de manhã e à noite.</p>
+      <div class="toggles">
+        <button class="tg" data-breath="m" aria-pressed="${!!b.m}">Manhã</button>
+        <button class="tg" data-breath="n" aria-pressed="${!!b.n}">Noite</button>
+      </div>
+      <div class="week" aria-label="Últimos 7 dias">${days}</div>
+      <details class="more"><summary>Como fazer</summary>
+        <p>Deitado ou sentado, puxe o ar pelo nariz em 4 s, expandindo as costelas laterais e o abdômen, sem erguer os ombros. Segure 3 s. Solte suavemente pela boca entreaberta em 6 s. Faça 10 repetições.</p>
+        <p>Se tiver um espirômetro de incentivo, use-o duas vezes ao dia.</p>
+      </details>
+    </section>`;
+  setupFigs();
+}
+
+function lastLoad(exId,sess){
+  const list=sessOf(sess.mod).filter(s=>s.n<sess.n).reverse();
+  for(const s of list){const l=state.logs[s.id];if(!l)continue;const pl=PLANS[s.plan];
+    for(let i=0;i<pl.blocks.length;i++){const b=pl.blocks[i],f=l.f['b'+i];if(f&&f.kg!=null&&f.kg!==''&&blockEx(b,f)===exId)return {kg:f.kg,date:sDate(l),n:s.n}}}
+  return null;
+}
+
+function renderSession(id){
+  const s=SBY[id],pl=PLANS[s.plan],m=MODS[s.mod],l=state.logs[id]||{f:{}},nat=s.mod==='nat';
+  document.documentElement.style.setProperty('--accent',m.accent);
+  const pills=sessOf(s.mod).map(x=>`<a class="pill${state.logs[x.id]&&state.logs[x.id].done?' done':''}" href="#/${x.id}"${x.id===id?' aria-current="page"':''} aria-label="Sessão ${x.n}">${x.n}</a>`).join('');
+  let lastSec=null;
+  const blocks=pl.blocks.map((b,i)=>{
+    const f=l.f['b'+i]||{},key=id+'-'+i,exId=blockEx(b,f);
+    const showSec=b.sec&&b.sec!==lastSec;lastSec=b.sec||lastSec;
+    const title=b.t||EX[exId].name;
+    const hasLoad=!nat&&b.load!==false;
+    const prev=hasLoad?lastLoad(exId,s):null;
+    return `<article class="blk">
+      ${showSec?`<p class="sec">${b.sec}</p>`:''}
+      <div class="blk-h"><span class="bt">${title}</span>${b.d?`<span class="dist">${b.d}</span>`:''}</div>
+      ${b.choice?`<div class="seg" role="group" aria-label="Exercício">${b.choice.map(c=>`<button data-choice="${i}" data-ex="${c}" aria-pressed="${c===exId}">${EX[c].name}</button>`).join('')}</div>`:''}
+      ${exId?figHTML(exId,key):''}
+      <p class="rx">${b.rx}</p>
+      ${b.rest?`<p class="rest">Descanso: ${b.rest}</p>`:''}
+      <div class="fields${hasLoad?'':' one'}">
+        ${hasLoad?`<div><label for="k-${key}">Peso (kg)</label><input class="kg" type="number" inputmode="decimal" step="0.5" min="0" id="k-${key}" data-b="${i}" data-k="kg" value="${f.kg??''}">${prev?`<div class="hint">Última: ${num(prev.kg)} kg (sessão ${prev.n})</div>`:''}</div>`:''}
+        <div><label for="o-${key}">Comentário</label><textarea id="o-${key}" data-b="${i}" data-k="obs" rows="2" placeholder="${nat?'Como foi, tempo, sensação':'Reps, RPE, sensações'}">${esc(f.obs||'')}</textarea></div>
+      </div>
+    </article>`;
+  }).join('');
+  const done=!!l.done;
+  const nx=nextOf(s.mod);
+  view.innerHTML=`
+    <div class="top"><a class="back" href="#/">‹ Início</a><span class="brand">${m.label}</span></div>
+    <header class="s-head">
+      <p class="kicker">Sessão ${s.n} de 12, semana ${s.week}, ${pl.day.toLowerCase()}</p>
+      <h1>${pl.name}</h1>
+      <p>${pl.focus}</p>
+      <p class="rule">${m.rule}${pl.total?` Total: ${pl.total}.`:''}</p>
+      <nav class="pills" aria-label="Sessões">${pills}</nav>
+    </header>
+    ${blocks}
+    <section class="done-box">
+      <h2>Fechamento</h2>
+      <div class="fields${nat?'':' one'}">
+        ${nat?`<div><label for="dist">Metros nadados</label><input class="kg" type="number" inputmode="numeric" step="50" min="0" id="dist" data-k="dist" value="${l.dist??''}"></div>`:''}
+        <div><label for="note">Comentário geral</label><textarea id="note" data-k="note" rows="2" placeholder="Como você se sentiu na sessão">${esc(l.note||'')}</textarea></div>
+      </div>
+      <button class="donebtn" id="doneBtn" aria-pressed="${done}"><span class="box">${checkSvg}</span>Treino concluído</button>
+      <p class="donemeta" id="doneMeta">${done?`Concluído em ${br(l.doneAt)}.`:'Ao marcar, a próxima visita a '+m.label.toLowerCase()+' abre direto na sessão seguinte.'}</p>
+      <div id="nextWrap">${done&&nx&&nx.id!==id?`<a class="btn acc nextbtn" href="#/${nx.id}">Ir para a sessão ${nx.n}</a>`:''}</div>
+    </section>`;
+  view.dataset.sess=id;
+  setupFigs();
+}
+
+/* ================= Eventos ================= */
+let saveT=null;
+view.addEventListener('input',e=>{
+  const el=e.target,id=view.dataset.sess;if(!id||!el.dataset.k)return;
+  const l=log(id),k=el.dataset.k;
+  if(el.dataset.b!=null){const f=l.f['b'+el.dataset.b]||(l.f['b'+el.dataset.b]={});
+    if(k==='kg'){const v=el.value.replace(',','.').trim();f.kg=v===''?null:Number(v)}else f.obs=el.value}
+  else if(k==='dist'){const v=el.value.trim();l.dist=v===''?'':Number(v)}
+  else if(k==='note') l.note=el.value;
+  touch(l);clearTimeout(saveT);saveT=setTimeout(persist,400);
+});
+document.addEventListener('click',e=>{
+  const ch=e.target.closest('[data-choice]');
+  if(ch){const id=view.dataset.sess,l=log(id),i=ch.dataset.choice,f=l.f['b'+i]||(l.f['b'+i]={});f.ex=ch.dataset.ex;touch(l);persist();renderSession(id);return}
+  const bt=e.target.closest('[data-breath]');
+  if(bt){const t=isoToday(),b=state.breath[t]||(state.breath[t]={}),k=bt.dataset.breath;b[k]=!b[k];persist();renderHome();toast(b[k]?'Respiração registrada':'Registro removido');return}
+  if(e.target.closest('#doneBtn')){
+    const id=view.dataset.sess,l=log(id);l.done=!l.done;l.doneAt=l.done?isoToday():'';touch(l);persist();renderSession(id);
+    toast(l.done?'Treino concluído':'Marcação removida');
+    if(l.done)setTimeout(()=>{const d=$('.done-box');d&&d.scrollIntoView({block:'end',behavior:reduce?'auto':'smooth'})},50);
+    return}
+  const op=e.target.closest('[data-open]');if(op){openSheet(op.dataset.open);return}
+  if(e.target.closest('[data-close]')||e.target.classList.contains('sheet-bg'))closeSheets();
+});
+window.addEventListener('hashchange',()=>{clearTimeout(saveT);persist();route()});
+
+function openSheet(id){closeSheets();document.getElementById(id).classList.add('on')}
+function closeSheets(){document.querySelectorAll('.sheet-bg').forEach(s=>s.classList.remove('on'))}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheets()});
+window.__back=function(){if(document.querySelector('.sheet-bg.on')){closeSheets();return true}if(location.hash&&location.hash!=='#/'){location.hash='#/';return true}return false};
+
+/* ================= Relatório ================= */
+$('#openReport').addEventListener('click',()=>{const ds=Object.values(state.logs).map(sDate).filter(Boolean).sort();$('#rpFrom').value=ds[0]||isoMinus(30);$('#rpTo').value=isoToday();openSheet('reportSheet')});
+$('#rpPeriod').addEventListener('change',e=>{$('#rpCustom').hidden=e.target.value!=='custom'});
+$('#makePdf').addEventListener('click',makePdf);
+
+function collect(from,to){
+  const rows=[],charts={};
+  SESS.forEach(s=>{
+    const l=state.logs[s.id];if(!l)return;const d=sDate(l);if(!d||d<from||d>to)return;
+    const pl=PLANS[s.plan],tag=`${pl.name}, sessão ${s.n}`;
+    pl.blocks.forEach((b,i)=>{const f=l.f['b'+i];if(!f)return;const has=f.kg!=null&&f.kg!=='';if(!has&&!f.obs)return;
+      const name=blockName(s.plan,b,f);rows.push({ex:name,kg:has?f.kg:'',date:d,obs:f.obs||'',tag});
+      if(has){const k=blockEx(b,f);(charts[k]=charts[k]||{name:EX[k].name,unit:'kg',pts:[]}).pts.push({d,v:+f.kg})}});
+    if(l.dist!==''&&l.dist!=null){rows.push({ex:`Distância total (${pl.name})`,kg:'',date:d,obs:`${num(l.dist)} m`,tag});(charts.dist=charts.dist||{name:'Natação, metros por sessão',unit:'m',pts:[]}).pts.push({d,v:+l.dist})}
+    if(l.note)rows.push({ex:`Comentário geral (${pl.name})`,kg:'',date:d,obs:l.note,tag});
+  });
+  return {rows,charts};
+}
+
+async function makePdf(){
+  if(!window.jspdf||!window.jspdf.jsPDF){toast('O gerador de PDF não carregou. Tente de novo.');return}
+  const v=$('#rpPeriod').value;
+  const [from,to]=v==='30'?[isoMinus(30),isoToday()]:v==='custom'?[$('#rpFrom').value||'0000-00-00',$('#rpTo').value||'9999-12-31']:['0000-00-00','9999-12-31'];
+  const {rows,charts}=collect(from,to);
+  if(!rows.length){toast('Não há anotações nesse período');return}
+  rows.sort((a,b)=>a.ex.localeCompare(b.ex,'pt-BR')||(a.date<b.date?-1:a.date>b.date?1:0));
+  const ds=rows.map(r=>r.date).sort();
+  const {jsPDF}=window.jspdf,doc=new jsPDF({unit:'mm',format:'a4'});
+  const RED=[196,30,58],INK=[23,33,43],MUTE=[110,120,128];
+  const doneN=m=>sessOf(m).filter(s=>state.logs[s.id]&&state.logs[s.id].done).length;
+  doc.setFont('helvetica','bold');doc.setFontSize(20);doc.setTextColor(...INK);doc.text('Relatório de treino',14,20);
+  doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(...MUTE);
+  doc.text(`Período: ${br(ds[0])} a ${br(ds[ds.length-1])}    Emitido em ${br(isoToday())}`,14,27);
+  doc.text(`Sessões concluídas: natação ${doneN('nat')} de 12, academia ${doneN('acad')} de 12`,14,32);
+  doc.setDrawColor(...RED);doc.setLineWidth(.8);doc.line(14,35,196,35);
+  doc.autoTable({startY:40,head:[['Exercício','Peso (kg)','Data','Observação']],
+    body:rows.map(r=>[r.ex,r.kg===''?'':num(r.kg),br(r.date),r.obs]),
+    styles:{font:'helvetica',fontSize:9,cellPadding:2.2,textColor:INK,lineColor:[220,224,226],lineWidth:.1,valign:'top'},
+    headStyles:{fillColor:INK,textColor:[255,255,255],fontStyle:'bold'},alternateRowStyles:{fillColor:[245,246,244]},
+    columnStyles:{0:{cellWidth:56},1:{cellWidth:20,halign:'right'},2:{cellWidth:24},3:{cellWidth:'auto'}},margin:{left:14,right:14}});
+  const keys=Object.keys(charts).sort((a,b)=>a==='dist'?1:b==='dist'?-1:charts[a].name.localeCompare(charts[b].name,'pt-BR'));
+  if(keys.length){
+    doc.addPage();doc.setFont('helvetica','bold');doc.setFontSize(16);doc.setTextColor(...INK);doc.text('Desempenho',14,20);
+    doc.setDrawColor(...RED);doc.setLineWidth(.8);doc.line(14,23,196,23);
+    const W=88,H=78,xs=[14,108];let y=30,col=0;
+    keys.forEach(k=>{if(y+H>290){doc.addPage();y=18;col=0}
+      const c=charts[k];c.pts.sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+      pdfChart(doc,xs[col],y,W,H,c.name,c.pts,c.unit,{RED,INK,MUTE});col++;if(col===2){col=0;y+=H}});
+  }
+  const r=await saveFile(`relatorio-treino-${isoToday()}.pdf`,'application/pdf',doc.output('blob'));
+  if(r==='saved'||r==='native')closeSheets();
+  if(r!=='native')toast(r==='saved'?'Relatório salvo':'Não foi possível salvar o PDF agora');
+}
+
+function pdfChart(doc,x,y,w,h,title,list,unit,c){
+  doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(...c.INK);doc.text(doc.splitTextToSize(title,w-2)[0],x,y+4);
+  const px=x+13,py=y+9,pw=w-16,ph=h-30;
+  const ks=list.map(e=>e.v),ts=list.map(e=>new Date(e.d+'T12:00').getTime());
+  let mn=Math.min(...ks),mx=Math.max(...ks);if(mn===mx){mn=Math.max(0,mn-2.5);mx=mx+2.5}
+  const pv=(mx-mn)*.1;mn=Math.max(0,mn-pv);mx=mx+pv;
+  let t0=Math.min(...ts),t1=Math.max(...ts);if(t0===t1){t0-=864e5;t1+=864e5}
+  const X=t=>px+(t-t0)/(t1-t0)*pw,Y=v=>py+ph-(v-mn)/(mx-mn)*ph;
+  doc.setDrawColor(215,219,222);doc.setLineWidth(.2);doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...c.MUTE);
+  for(let i=0;i<=3;i++){const v=mn+(mx-mn)*i/3,yy=Y(v);doc.line(px,yy,px+pw,yy);doc.text(num(Math.round(v)),px-2,yy+1,{align:'right'})}
+  const d0=list[0].d,d1=list[list.length-1].d;doc.text(br(d0),px,py+ph+5);if(d1!==d0)doc.text(br(d1),px+pw,py+ph+5,{align:'right'});
+  doc.setDrawColor(...c.RED);doc.setLineWidth(.7);for(let i=1;i<list.length;i++)doc.line(X(ts[i-1]),Y(ks[i-1]),X(ts[i]),Y(ks[i]));
+  doc.setFillColor(...c.RED);list.forEach((e,i)=>doc.circle(X(ts[i]),Y(ks[i]),.9,'F'));
+  const first=ks[0],last=ks[ks.length-1],best=Math.max(...ks),vp=first>0?(last-first)/first*100:null;
+  doc.setFontSize(8);doc.setTextColor(...c.INK);
+  doc.text(`Inicial ${num(first)} ${unit}, último ${num(last)} ${unit}, máximo ${num(best)} ${unit}`,x,py+ph+11);
+  doc.text(`${list.length} registro${list.length>1?'s':''}${vp!=null?`, variação ${vp>=0?'+':''}${num(Math.round(vp*10)/10)}%`:''}`,x,py+ph+15);
+}
+
+function blobToB64(blob){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>res(String(fr.result).split(',')[1]);fr.onerror=rej;fr.readAsDataURL(blob)})}
+async function saveFile(fname,mime,blob){
+  if(window.Android&&typeof window.Android.saveFile==='function'){try{return window.Android.saveFile(await blobToB64(blob),fname,mime)?'native':'error'}catch(e){return 'error'}}
+  try{const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=fname;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);return 'saved'}catch(e){return 'error'}
+}
+
+/* ================= Backup ================= */
+$('#expBtn').addEventListener('click',async()=>{
+  const data=JSON.stringify({app:'treino-preop',version:1,exported:new Date().toISOString(),logs:state.logs,breath:state.breath});
+  const r=await saveFile(`treino-backup-${isoToday()}.json`,'application/json',new Blob([data],{type:'application/json'}));
+  if(r!=='native')toast(r==='saved'?'Backup salvo':'Não foi possível salvar o backup');
+});
+$('#impBtn').addEventListener('click',()=>$('#impFile').click());
+$('#impFile').addEventListener('change',async e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  try{
+    const d=JSON.parse(await f.text());if(!d||typeof d.logs!=='object')throw new Error();
+    let n=0;
+    Object.entries(d.logs).forEach(([id,l])=>{if(!SBY[id]||!l)return;const cur=state.logs[id];if(!cur||(l.upd||0)>(cur.upd||0)){state.logs[id]=l;n++}});
+    Object.entries(d.breath||{}).forEach(([day,b])=>{const cur=state.breath[day]||(state.breath[day]={});cur.m=cur.m||!!b.m;cur.n=cur.n||!!b.n});
+    persist();closeSheets();route();toast(n?`${n} sessão(ões) atualizada(s)`:'Nada novo no arquivo');
+  }catch(err){toast('Arquivo de backup inválido')}
+  e.target.value='';
+});
+
+/* ================= Coach ================= */
+function coachText(){
+  const q=$('#chQ').value.trim(),parts=['Coach, segue meu registro de treino.'];
+  if($('#chCtx').checked){
+    ['nat','acad'].forEach(m=>{
+      const done=sessOf(m).filter(s=>state.logs[s.id]&&state.logs[s.id].done),nx=nextOf(m);
+      parts.push(`\n${MODS[m].label}: ${done.length} de 12 sessões concluídas.${nx?` Próxima: sessão ${nx.n} (${PLANS[nx.plan].name}).`:''}`);
+      done.slice(-2).forEach(s=>{const l=state.logs[s.id],pl=PLANS[s.plan];
+        const items=pl.blocks.map((b,i)=>{const f=l.f['b'+i];if(!f)return'';const has=f.kg!=null&&f.kg!=='';if(!has&&!f.obs)return'';
+          return `  - ${b.t||EX[blockEx(b,f)].name}: ${has?num(f.kg)+' kg':''}${has&&f.obs?'. ':''}${f.obs||''}`}).filter(Boolean);
+        parts.push(`Sessão ${s.n}, ${pl.name}, ${br(l.doneAt)}${l.dist?`, ${num(l.dist)} m`:''}${l.note?`. Geral: ${l.note}`:''}`);
+        if(items.length)parts.push(items.join('\n'));
+      });
+    });
+    const days=[...Array(7)].map((_,i)=>state.breath[isoMinus(i)]||{}),cnt=days.reduce((a,b)=>a+(b.m?1:0)+(b.n?1:0),0);
+    parts.push(`\nRespiração diária nos últimos 7 dias: ${cnt} de 14 ciclos.`);
+  }
+  parts.push(q?`\n${q}`:'\nQual o seu feedback?');
+  return parts.join('\n');
+}
+const okLink=v=>/^https:\/\/gemini\.google\.com\//.test(v);
+function refreshCoach(){$('#chPrev').value=coachText();const v=$('#chLink').value.trim();$('#chGo').href=okLink(v)?v:'https://gemini.google.com/app'}
+$('#openCoach').addEventListener('click',()=>{$('#chLink').value=state.coachLink||'';refreshCoach();openSheet('coachSheet')});
+['#chQ','#chCtx','#chLink'].forEach(s=>$(s).addEventListener('input',refreshCoach));
+$('#chLink').addEventListener('change',()=>{const v=$('#chLink').value.trim();state.coachLink=okLink(v)?v:'';persist()});
+$('#chGo').addEventListener('click',()=>{
+  refreshCoach();const txt=$('#chPrev').value;let ok=false;
+  if(window.Android&&typeof window.Android.copyText==='function'){try{window.Android.copyText(txt);ok=true}catch(e){}}
+  if(!ok)try{const ta=$('#chPrev');ta.removeAttribute('readonly');ta.select();ok=document.execCommand('copy');ta.setAttribute('readonly','');ta.setSelectionRange(0,0)}catch(e){}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(()=>{},()=>{});
+  toast(ok?'Texto copiado. Cole no Gemini e envie.':'Se a colagem falhar, copie o texto da caixa manualmente.');
+});
+
+/* ================= Início ================= */
+load();
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){clearTimeout(saveT);persist()}});
+route();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/treino/sw.js',{scope:'/treino/'}).catch(()=>{});
+if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
+})();
+</script>
+</body>
+</html>
