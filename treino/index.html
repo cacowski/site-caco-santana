@@ -205,7 +205,7 @@ textarea{min-height:46px;resize:vertical}
     <textarea id="chPrev" class="preview" readonly></textarea>
     <div class="actions">
       <button class="btn line" data-close>Fechar</button>
-      <a class="btn red" id="chGo" href="https://gemini.google.com/app" target="_blank" rel="noopener">Copiar e abrir o Gemini</a>
+      <a class="btn red" id="chGo" href="https://gemini.google.com/app/bed2fc997bcb9514" target="_blank" rel="noopener">Copiar e abrir o Gemini</a>
     </div>
   </div>
 </div>
@@ -813,9 +813,10 @@ function coachText(){
   parts.push(q?`\n${q}`:'\nQual o seu feedback?');
   return parts.join('\n');
 }
+const COACH='https://gemini.google.com/app/bed2fc997bcb9514';
 const okLink=v=>/^https:\/\/gemini\.google\.com\//.test(v);
-function refreshCoach(){$('#chPrev').value=coachText();const v=$('#chLink').value.trim();$('#chGo').href=okLink(v)?v:'https://gemini.google.com/app'}
-$('#openCoach').addEventListener('click',()=>{$('#chLink').value=state.coachLink||'';refreshCoach();openSheet('coachSheet')});
+function refreshCoach(){$('#chPrev').value=coachText();const v=$('#chLink').value.trim();$('#chGo').href=okLink(v)?v:COACH}
+$('#openCoach').addEventListener('click',()=>{$('#chLink').value=state.coachLink||COACH;refreshCoach();openSheet('coachSheet')});
 ['#chQ','#chCtx','#chLink'].forEach(s=>$(s).addEventListener('input',refreshCoach));
 $('#chLink').addEventListener('change',()=>{const v=$('#chLink').value.trim();state.coachLink=okLink(v)?v:'';persist()});
 $('#chGo').addEventListener('click',()=>{
