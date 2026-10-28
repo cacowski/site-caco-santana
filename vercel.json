@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/paraveremsp", "destination": "https://para-ver-em-sp.vercel.app/paraveremsp" },
+    { "source": "/paraveremsp/", "destination": "https://para-ver-em-sp.vercel.app/paraveremsp" },
+    { "source": "/_next/:path*", "destination": "https://para-ver-em-sp.vercel.app/_next/:path*" }
+  ]
+}
